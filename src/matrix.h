@@ -4,10 +4,11 @@
 #include <string>
 
 using Row = std::tuple<int, int, int>;
+inline const unsigned int ROWS_COUNT = 8;
 
 class Matrix{
 private:
-    Row _rows[8];
+    Row _rows[ROWS_COUNT];
     bool _has_error;
 public:
     explicit Matrix(const std::string& path);

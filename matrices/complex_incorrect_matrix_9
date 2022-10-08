@@ -1,7 +1,6 @@
 
 // comment 1 //////
 
-123
 
 //comment 2
 
@@ -19,7 +18,7 @@ D C D 0        -6 0
 C       D        D  -6  0            0               //comment 7
 
 
-D D        C 0 0 -6
+DD        C 0 0 -6
 D    D D -5      -5       -5           // comment 8
 //comment 9
 
