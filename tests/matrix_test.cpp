@@ -118,13 +118,13 @@ TEST(MatrixTest, test10){
     EXPECT_EQ(matrix.get_row("DDD"), Row(5, 5, 5));
 }
 TEST(MatrixTest, test11){ // first inequality is wrong (3 * c0 > 2 * c1 + d0)
-    const char* path = "../matrices/simple_positive_incorrect_matrix_1";
+    const char* path = "../matrices/simple_incorrect_matrix_1";
     const Matrix matrix = Matrix(path);
     EXPECT_FALSE(matrix.has_error());
     EXPECT_FALSE(matrix.is_consistent());
 }
 TEST(MatrixTest, test12){ // third inequality is wrong (d0 > c0 > d1 > c1 > d2 > c2)
-    const char* path = "../matrices/simple_positive_incorrect_matrix_2";
+    const char* path = "../matrices/simple_incorrect_matrix_2";
     const Matrix matrix = Matrix(path);
     EXPECT_FALSE(matrix.has_error());
     EXPECT_FALSE(matrix.is_consistent());
