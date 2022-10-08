@@ -1,0 +1,39 @@
+
+// comment 1
+
+
+//comment 2
+
+/*
+    section 2
+
+*/
+
+
+С С С 2 2 2// comment 3
+C  C  D  -4  -4  3 // comment 4
+C   D   C   -4g   3   -4  // comment 5
+D C  C   3     -4      -4   // comment 6
+C       D        D  -6  0            0               //comment 7
+D C D 0        -6 0
+D D        C 0 0 -6
+D    D D -5      -5       -5           // comment 8
+//comment 9
+
+
+/*
+    section 2
+
+
+*/
+
+
+
+//comment 10
+//comment 11
+
+
+
+
+
+

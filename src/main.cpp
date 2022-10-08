@@ -1,8 +1,10 @@
 #include <iostream>
+#include "matrix.h"
 
 int main(){
-    //test
+    Matrix m("../matrices/matrix");
 
-    std::cout << "Hello, prisoners!" << std::endl;
+    m.
+
     return 0;
 }
