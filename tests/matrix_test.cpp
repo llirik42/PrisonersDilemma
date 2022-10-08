@@ -29,25 +29,25 @@ TEST(MatrixTest, test2){ // correct matrix with spaces, empty lines and negative
     EXPECT_EQ(matrix.get_row("DDC"), Row(0, 0, -6));
     EXPECT_EQ(matrix.get_row("DDD"), Row(-5, -5, -5));
 }
-TEST(MatrixTest, test3){
+TEST(MatrixTest, test3){ // inappropriate particular line "123"
     const char* path = "../matrices/complex_incorrect_matrix_1";
     const Matrix matrix = Matrix(path);
 
     EXPECT_TRUE(matrix.has_error());
 }
-TEST(MatrixTest, test4){
+TEST(MatrixTest, test4){ // letters mixed with numbers in table
     const char* path = "../matrices/complex_incorrect_matrix_2";
     const Matrix matrix = Matrix(path);
 
     EXPECT_TRUE(matrix.has_error());
 }
-TEST(MatrixTest, test5){
+TEST(MatrixTest, test5){ // 4 numbers in one row
     const char* path = "../matrices/complex_incorrect_matrix_3";
     const Matrix matrix = Matrix(path);
 
     EXPECT_TRUE(matrix.has_error());
 }
-TEST(MatrixTest, test6){
+TEST(MatrixTest, test6){ // letters mixed with numbers (they could be hex-digits but not)
     const char* path = "../matrices/complex_incorrect_matrix_4";
     const Matrix matrix = Matrix(path);
 
@@ -128,4 +128,9 @@ TEST(MatrixTest, test12){ // third inequality is wrong (d0 > c0 > d1 > c1 > d2 >
     const Matrix matrix = Matrix(path);
     EXPECT_FALSE(matrix.has_error());
     EXPECT_FALSE(matrix.is_consistent());
+}
+TEST(MatrixTest, test13){ // unsupported comments with /*
+    const char* path = "../complex_incorrect_matrix_5";
+    const Matrix matrix = Matrix(path);
+    EXPECT_TRUE(matrix.has_error());
 }
