@@ -1,0 +1,8 @@
+//
+// Created by Кирилл on 09.10.2022.
+//
+
+#ifndef PRISONERSDILEMMA_UTILS_H
+#define PRISONERSDILEMMA_UTILS_H
+
+#endif //PRISONERSDILEMMA_UTILS_H
