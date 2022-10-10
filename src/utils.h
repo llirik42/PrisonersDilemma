@@ -1,8 +1,5 @@
-//
-// Created by Кирилл on 09.10.2022.
-//
+#pragma once
 
-#ifndef PRISONERSDILEMMA_UTILS_H
-#define PRISONERSDILEMMA_UTILS_H
-
-#endif //PRISONERSDILEMMA_UTILS_H
+inline unsigned char char_to_digit(char c){
+    return c - '0';
+}

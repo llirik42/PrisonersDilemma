@@ -10,6 +10,10 @@ class Matrix{
 private:
     Row _rows[ROWS_COUNT];
     bool _has_error;
+
+    void input_matrix(std::ifstream& ifstream);
+
+    [[nodiscard]] bool is_symmetric() const;
 public:
     explicit Matrix(const std::string& path);
 
