@@ -1,27 +1,30 @@
 #pragma once
 
 #include <array>
-#include <string>
+#include <map>
 
-using Row = std::array<int, 3>; // 3 values in each row
-inline const unsigned int ROWS_COUNT = 8;
+inline const unsigned int ELEMENTS_IN_ROW_COUNT = 3; // 3 values in each row
+
+using Row = std::array<int, ELEMENTS_IN_ROW_COUNT>;
 
 class Matrix{
 private:
-    Row _rows[ROWS_COUNT];
     bool _has_error;
+    mutable std::map<std::string, Row> _rows;
 
-    void input(std::ifstream& ifstream);
+    void match_row(const std::string& line); // matcher values of line
 
-    [[nodiscard]] bool is_symmetric() const;
+    [[nodiscard]] bool input(std::ifstream& ifstream); // inputs matrix from stream
+
+    bool is_symmetric() const; // checks symmetry
 public:
-    explicit Matrix(const std::string& path);
+    explicit Matrix(const std::string& path); // path to matrix-file
 
-    [[nodiscard]] bool has_error() const; // Have errors occurred during initialization
+    bool has_error() const; // Have errors occurred during initialization
 
-    [[nodiscard]] bool is_consistent() const; // Checks inequalities
+    bool is_consistent() const; // Checks inequalities and symmetry
 
-    [[nodiscard]] const Row& get_row(const std::string& row_code) const; // receives "CCC", "CCD" ...
+    const Row& get_row(const std::string& row_code) const; // receives "CCC", "CCD" ...
 
-    [[nodiscard]] int get_element(const std::string& row_code, int index_in_row) const;
+    int get_element(const std::string& row_code, unsigned int index_in_row) const; // get element of row
 };
