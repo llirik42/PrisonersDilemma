@@ -26,5 +26,7 @@ public:
 
     const Row& get_row(const std::string& row_code) const; // receives "CCC", "CCD" ...
 
+    const Row& get_row(char c1, char c2, char c3) const; // receives ('C', 'C', 'C'), ...
+
     int get_element(const std::string& row_code, unsigned int index_in_row) const; // get element of row
 };
