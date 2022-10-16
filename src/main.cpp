@@ -1,37 +1,74 @@
 #include "strategies_factory.h"
 #include <vector>
 #include <iostream>
+#include "strategy.h"
+#include "matrix.h"
 
-void
+enum GameMode{
+    FAST,
+    DETAILED,
+    TOURNAMENT
+};
+
+using StrategiesList = std::vector<std::unique_ptr<Strategy>>;
+
+struct GameData{
+    unsigned int steps_count;
+    const StrategiesList& strategies_list;
+    const Matrix& matrix;
+};
 
 
-void fast_mode(){
+
+
+void competition(bool detailed, const GameData& game_data){
+    if (detailed){
+        return;
+    }
+
+    unsigned int sum_1 = 0;
+    unsigned int sum_2 = 0;
+    unsigned int sum_3 = 0;
+
+    for (unsigned int i = 0; i < game_data.steps_count; i++){
+        char t1 = game_data.strategies_list[0]->act();
+        char t2 = game_data.strategies_list[1]->act();
+        char t3 = game_data.strategies_list[2]->act();
+
+    }
+
+
 
 }
-void tournament(){
+
+void tournament(const GameData& game_data){
 
 }
-void detailed_mode(){
 
+void game(GameMode mode, const GameData& game_data){
+    if (mode == TOURNAMENT){
+        tournament(game_data);
+    }
+
+    competition(mode == DETAILED, game_data);
 }
 
 int main(){
-    //srand(time(nullptr));
+    Matrix matrix("../matrices/matrix_2");
 
     StrategiesFactory factory = StrategiesFactory();
 
-    std::vector<std::unique_ptr<Strategy>> strategies;
+    StrategiesList strategies_list;
 
-    strategies.push_back(factory.create_strategy(CONSTANT_STRATEGY));
-    strategies.push_back(factory.create_strategy(RANDOM_STRATEGY));
-    strategies.push_back(factory.create_strategy(PERIODIC_STRATEGY));
+    strategies_list.push_back(factory.create_strategy(CONSTANT_STRATEGY));
+    strategies_list.push_back(factory.create_strategy(RANDOM_STRATEGY));
+    strategies_list.push_back(factory.create_strategy(PERIODIC_STRATEGY));
 
-    for (unsigned int i = 0; i < 10; i++){
-        for (auto & strategy : strategies){
-            std::cout << strategy->act() << " ";
-        }
-        std::cout << "\n";
-    }
+    GameMode mode = FAST;
+
+    GameData game_data({true, strategies_list, matrix});
+
+    game(mode, game_data);
 
     return 0;
 }
