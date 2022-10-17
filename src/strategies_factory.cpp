@@ -1,9 +1,5 @@
 #include "strategies_factory.h"
 
-
-
-
-
 template<typename Type>
 std::unique_ptr<Strategy> create(){
     return std::make_unique<Type>();
@@ -38,21 +34,6 @@ std::unique_ptr<Strategy> StrategiesFactory::create_strategy(const std::string& 
     }
 
     return nullptr;
-
-    /*
-    if (title == "Constant"){
-        return std::make_unique<ConstantStrategy>();
-    }
-
-    if (title == "Random"){
-        return std::make_unique<RandomStrategy>();
-    }
-
-    if (title == "Periodic"){
-        return std::make_unique<PeriodicStrategy>();
-    }
-
-    return nullptr;*/
 }
 
 const std::vector<StrategyDescription>& StrategiesFactory::get_strategies_description(){
