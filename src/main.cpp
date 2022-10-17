@@ -61,9 +61,9 @@ void competition(bool detailed, const GameData& game_data){
 }
 
 void tournament(const GameData& game_data){
+    GameData t = game_data;
 
 }
-
 void game(GameMode mode, const GameData& game_data){
     if (mode == TOURNAMENT){
         tournament(game_data);

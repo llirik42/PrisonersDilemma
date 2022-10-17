@@ -2,12 +2,6 @@
 
 using Step = char;
 
-enum StrategyType{
-    CONSTANT_STRATEGY,
-    RANDOM_STRATEGY,
-    PERIODIC_STRATEGY
-};
-
 class Strategy{
 protected:
     Strategy();
