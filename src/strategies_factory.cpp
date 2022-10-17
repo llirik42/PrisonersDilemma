@@ -19,7 +19,7 @@ StrategiesFactory::StrategiesFactory(){
     _info.push_back(StrategyInfo({
         StrategyDescription({"Periodic", "Description 3"}),
         create<PeriodicStrategy>
-                                 }));
+    }));
 
     for (const auto& i : _info){
         _description.push_back(i.description);
