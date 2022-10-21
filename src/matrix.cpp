@@ -2,6 +2,7 @@
 #include <regex>
 #include "matrix.h"
 
+inline const unsigned int ELEMENTS_IN_ROW_COUNT = 3;
 inline const unsigned int ROWS_COUNT = 8;
 
 void Matrix::match_row(const std::string& line){
@@ -181,8 +182,8 @@ const Row& Matrix::get_row(const std::string& row_code) const{
     return _rows[row_code];
 }
 
-const Row& Matrix::get_row(char c1, char c2, char c3) const{
-    return get_row(std::string({c1, c2, c3}));
+const Row& Matrix::get_row(const Triplet<char>& row_code) const{
+    return get_row(std::string({row_code[0], row_code[1], row_code[2]}));
 }
 
 int Matrix::get_element(const std::string& row_code, unsigned int index_in_row) const{

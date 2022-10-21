@@ -1,5 +1,7 @@
 #pragma once
 
+class Strategy;
+
 using Step = char;
 
 class Strategy{

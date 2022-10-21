@@ -1,28 +1,22 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <memory>
+#include <map>
 #include "strategy.h"
 
-struct StrategyDescription{
-    std::string title;
-    std::string description;
-};
-
 struct StrategyInfo{
-    StrategyDescription description;
-    std::unique_ptr<Strategy> (*create)(){};
+    std::string description;
+    std::unique_ptr<Strategy> (*create)();
 };
 
 class StrategiesFactory{
 private:
-    std::vector<StrategyDescription> _description;
-    std::vector<StrategyInfo> _info;
+    mutable std::map<const std::string, StrategyInfo> _info;
 public:
     StrategiesFactory();
 
-    const std::vector<StrategyDescription>& get_strategies_description();
+    std::unique_ptr<Strategy> create_strategy(const std::string& title) const;
 
-    std::unique_ptr<Strategy> create_strategy(const std::string& title);
+    std::map<std::string, std::string> get_strategies_description() const;
 };

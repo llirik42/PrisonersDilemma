@@ -6,36 +6,32 @@ std::unique_ptr<Strategy> create(){
 }
 
 StrategiesFactory::StrategiesFactory(){
-    _info.push_back(StrategyInfo({
-        StrategyDescription({"Constant", "Description 1"}),
+    _info["Constant"] = StrategyInfo({
+        "Description 1",
         create<ConstantStrategy>
-    }));
+    });
 
-    _info.push_back(StrategyInfo({
-        StrategyDescription({"Random", "Description 2"}),
+    _info["Random"] = StrategyInfo({
+        "Description 2",
         create<RandomStrategy>
-    }));
+    });
 
-    _info.push_back(StrategyInfo({
-        StrategyDescription({"Periodic", "Description 3"}),
+    _info["Periodic"] = StrategyInfo({
+        "Description 3",
         create<PeriodicStrategy>
-    }));
-
-    for (const auto& i : _info){
-        _description.push_back(i.description);
-    }
+    });
 }
 
-std::unique_ptr<Strategy> StrategiesFactory::create_strategy(const std::string& title){
-    for (const auto& i : _info){
-        if (i.description.title == title){
-            return i.create();
-        }
-    }
-
-    return nullptr;
+std::unique_ptr<Strategy> StrategiesFactory::create_strategy(const std::string& title) const{
+    return _info[title].create();
 }
 
-const std::vector<StrategyDescription>& StrategiesFactory::get_strategies_description(){
-    return _description;
+std::map<std::string, std::string> StrategiesFactory::get_strategies_description() const{
+    std::map<std::string, std::string> result;
+
+    for (const auto& key: _info){
+        result[key.first] = key.second.description;
+
+    }
+    return result;
 }

@@ -1,11 +1,9 @@
 #pragma once
 
-#include <array>
 #include <map>
+#include "utils.h"
 
-inline const unsigned int ELEMENTS_IN_ROW_COUNT = 3; // 3 values in each row
-
-using Row = std::array<int, ELEMENTS_IN_ROW_COUNT>;
+using Row = Triplet<int>;
 
 class Matrix{
 private:
@@ -26,7 +24,7 @@ public:
 
     const Row& get_row(const std::string& row_code) const; // receives "CCC", "CCD" ...
 
-    const Row& get_row(char c1, char c2, char c3) const; // receives ('C', 'C', 'C'), ...
+    const Row& get_row(const Triplet<Step>& row_code) const; // receives (C, C, C), ...
 
     int get_element(const std::string& row_code, unsigned int index_in_row) const; // get element of row
 };
