@@ -1,29 +1,26 @@
 #include <iostream>
 #include "game.h"
-#include "utils.h"
 
-using TripleScore = Triplet<int>;
-using StrategiesTriplet = Triplet<std::unique_ptr<Strategy>>;
-
-void add_score(const TripleScore& source, TripleScore& destination){
+void add_score(const Score& source, Score& destination, unsigned int i, unsigned int j, unsigned int k){
+    destination[i] += source[0];
+    destination[j] += source[1];
+    destination[k] += source[2];
+}
+void add_score(const Row& source, Score& destination){
     destination[0] += source[0];
     destination[1] += source[1];
     destination[2] += source[2];
 }
 
-StrategiesTriplet strategies_vector_to_triplet(StrategiesVector& strategies, unsigned int i, unsigned int j, unsigned int k){
-    return StrategiesTriplet({
-       std::move(strategies[0]),
-       std::move(strategies[1]),
-       std::move(strategies[2])
-    });
+StrategiesTriplet Game::extract_strategies_triplet(unsigned int i, unsigned int j, unsigned int k){
+    return StrategiesTriplet({_strategies[i], _strategies[j], _strategies[k]});
 }
 
-TripleScore competition(StrategiesTriplet& strategies_triplet, const Matrix& matrix, unsigned int steps_count, GameMode mode){
-    TripleScore score({0});
+Score Game::competition(StrategiesTriplet& strategies_triplet, bool mode){
+    Score score({0, 0, 0});
 
-    for (unsigned int i = 0; i < steps_count; i++){
-        if (mode == DETAILED){
+    for (unsigned int i = 0; i < _steps_count; i++){
+        if (_mode == DETAILED){
             std::string current_command;
             std::getline(std::cin, current_command);
 
@@ -40,34 +37,54 @@ TripleScore competition(StrategiesTriplet& strategies_triplet, const Matrix& mat
             steps[j] = strategies_triplet[j]->act();
         }
 
-        add_score(matrix.get_row(steps), score);
+        add_score(_matrix.get_row(steps), score);
 
-        if (mode == DETAILED){
-            std::cout << "Choices: P1 - " << t1 << ", P2 - " << t2 << ", P3 - " << t3 << "\n";
-            std::cout << "Score: P1 - " << score_1 << ", P2 - " << score_2 << ", P3 - " << score_3 << "\n";
+        if (_mode == DETAILED){
+            std::cout << "Choices: P1 - " << steps[0] << ", P2 - " << steps[1] << ", P3 - " << steps[2] << "\n";
+            std::cout << "Score: P1 - " << score[0] << ", P2 - " << score[1] << ", P3 - " << score[1] << "\n";
         }
     }
 
-    if (mode == FAST){
-        std::cout << "Final score: P1 - " << score_1 << ", P2 - " << score_2 << ", P3 - " << score_3 << "\n";
+    return score;
+}
+
+void Game::tournament(){
+    Score score({0});
+    score.resize(_strategies.size());
+
+    for (unsigned int i = 0; i <= _strategies.size() - 3; i++){
+        for (unsigned int j = i + 1;j <= _strategies.size() - 2; j++){
+            for (unsigned int k = j + 1; k <= _strategies.size() - 1; k++){
+                StrategiesTriplet competitors = extract_strategies_triplet(i, j, k);
+
+                Score current_triple_score = competition(competitors, FAST);
+
+
+
+                add_score(current_triple_score, score, i, j, k);
+            }
+        }
     }
 
-    return score;
-
+    for (unsigned int i = 0; i < _strategies.size(); i++){
+        std::cout << score[i] << " ";
+    }
+    std::cout << "\n";
 }
 
-void tournament(const StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count){
-    std::cout << "Tournament\n";
-}
+Game::Game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode):
+    _strategies(strategies), _matrix(matrix), _steps_count(steps_count), _mode(mode) {}
 
-void game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode){
-    if (mode != TOURNAMENT){
-        auto competitors = strategies_vector_to_triplet(strategies, 0, 1, 2);
+void Game::start(){
+    if (_mode != TOURNAMENT){
+        auto competitors = extract_strategies_triplet(0, 1, 2);
 
-        competition(competitors, matrix, steps_count, mode);
+        Score score = competition(competitors, _mode);
+
+        std::cout << "Final score: P1 - " << score[0] << ", P2 - " << score[1] << ", P3 - " << score[2] << "\n";
 
         return;
     }
 
-    tournament(strategies, matrix, steps_count);
+    tournament();
 }

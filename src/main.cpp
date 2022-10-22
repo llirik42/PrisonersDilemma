@@ -11,12 +11,14 @@ int main(){
     StrategiesVector strategies_list;
 
     strategies_list.push_back(factory.create_strategy("Constant"));
-    strategies_list.push_back(factory.create_strategy("Random"));
+    strategies_list.push_back(factory.create_strategy("Periodic"));
     strategies_list.push_back(factory.create_strategy("Random"));
 
     GameMode mode = TOURNAMENT;
 
-    game(strategies_list, matrix, 5, mode);
+    Game game(strategies_list, matrix, 1000, mode);
+
+    game.start();
 
     return 0;
 }
