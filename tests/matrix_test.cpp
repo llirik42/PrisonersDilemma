@@ -294,3 +294,11 @@ TEST(MatrixTest, test28){
 
     EXPECT_TRUE(matrix.has_error());
 }
+
+// 8 rows, but first row is doubled so one row is missing
+TEST(MatrixTest, test29){
+    const char* path = "../matrices/matrix_29";
+    const Matrix matrix = Matrix(path);
+
+    EXPECT_TRUE(matrix.has_error());
+}

@@ -4,3 +4,5 @@
 
 template<typename Type>
 using Triplet = std::array<Type, 3>;
+
+using Step = char;

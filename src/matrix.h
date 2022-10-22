@@ -10,7 +10,7 @@ private:
     bool _has_error;
     mutable std::map<std::string, Row> _rows;
 
-    void match_row(const std::string& line); // matcher values of line
+    std::string match_row(const std::string& line); // matches values of line and returns code of row
 
     [[nodiscard]] bool input(std::ifstream& ifstream); // inputs matrix from stream
 

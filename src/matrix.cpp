@@ -3,9 +3,10 @@
 #include "matrix.h"
 
 inline const unsigned int ELEMENTS_IN_ROW_COUNT = 3;
-inline const unsigned int ROWS_COUNT = 8;
 
-void Matrix::match_row(const std::string& line){
+using RowsMetTable = std::map<std::string, unsigned int>;
+
+std::string Matrix::match_row(const std::string& line){
     std::string line_copy = line;
 
     // regex for matching letters in row of matrix
@@ -31,6 +32,15 @@ void Matrix::match_row(const std::string& line){
         _rows[current_row_code][i] = std::stoi(smatch[0]);
         line_copy = smatch.suffix();
     }
+
+    return current_row_code;
+}
+
+bool check_rows_met_table(const RowsMetTable& table){
+    return std::all_of(table.begin(), table.end(), [](const auto& pair)
+    {
+        return pair.second == 1;
+    });
 }
 
 bool Matrix::input(std::ifstream& ifstream){
@@ -44,7 +54,16 @@ bool Matrix::input(std::ifstream& ifstream){
     // line with row of matrix
     static const std::regex row_regex(R"(\s*([CD]\s+){3}((0|(-?[1-9]\d*))\s+){2}(0|(-?[1-9]\d*))(\s*|\s+//.*))");
 
-    unsigned int rows_met_count = 0; // count of met rows of matrix (must be equal 8 after input())
+    std::map<std::string, unsigned int> rows_met_table({
+        {"CCC", 0},
+        {"CCD", 0},
+        {"CDC", 0},
+        {"CDD", 0},
+        {"DCC", 0},
+        {"DCD", 0},
+        {"DDC", 0},
+        {"DDD", 0}
+        });
 
     while(!ifstream.eof()){
         std::string current_line;
@@ -55,14 +74,17 @@ bool Matrix::input(std::ifstream& ifstream){
         }
 
         if (std::regex_match(current_line.data(), row_regex)){
-            rows_met_count++;
-            match_row(current_line);
+
+            std::string current_row_code = match_row(current_line);
+
+            rows_met_table[current_row_code]++;
+
             continue;
         }
         return false;
     }
 
-    return rows_met_count == ROWS_COUNT;
+    return check_rows_met_table(rows_met_table);
 }
 
 bool Matrix::is_symmetric() const{
