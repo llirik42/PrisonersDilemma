@@ -13,10 +13,12 @@ int main(){
     strategies_list.push_back(factory.create_strategy("Constant"));
     strategies_list.push_back(factory.create_strategy("Periodic"));
     strategies_list.push_back(factory.create_strategy("Random"));
+    strategies_list.push_back(factory.create_strategy("Random"));
+    strategies_list.push_back(factory.create_strategy("Random"));
 
     GameMode mode = TOURNAMENT;
 
-    Game game(strategies_list, matrix, 1000, mode);
+    Game game(strategies_list, matrix, 100, mode);
 
     game.start();
 

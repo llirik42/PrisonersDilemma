@@ -3,7 +3,7 @@
 #include <map>
 #include "utils.h"
 
-using Row = Triplet<int>;
+using Row = Score;
 
 class Matrix{
 private:

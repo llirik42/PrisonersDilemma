@@ -9,11 +9,11 @@ set(test_name test)
 
 #if (MSVC)
 #    add_compile_options(/W4 /WX)
-#else()
+# else()
 #    add_compile_options(-Wall -Wextra -pedantic -Werror)
 #endif()
 
-add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp)
+add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp src/viewer.cpp)
 
 add_executable(${exe_name} src/main.cpp)
 target_link_libraries(${exe_name} corelib)

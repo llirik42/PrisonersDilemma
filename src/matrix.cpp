@@ -26,6 +26,8 @@ std::string Matrix::match_row(const std::string& line){
         line_copy = smatch.suffix();
     }
 
+    _rows[current_row_code].resize(ELEMENTS_IN_ROW_COUNT);
+
     // matching of numbers
     for (unsigned int i = 0; i < ELEMENTS_IN_ROW_COUNT; i++){
         regex_search(line_copy, smatch, numbers_regex);
@@ -74,7 +76,6 @@ bool Matrix::input(std::ifstream& ifstream){
         }
 
         if (std::regex_match(current_line.data(), row_regex)){
-
             std::string current_row_code = match_row(current_line);
 
             rows_met_table[current_row_code]++;
