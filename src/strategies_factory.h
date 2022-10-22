@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include <map>
 #include "strategy.h"
 
+using StrategiesDescription = std::map<std::string, std::string>;
+
 struct StrategyInfo{
     std::string description;
-    std::unique_ptr<Strategy> (*create)();
+    Strategy (*create)();
 };
 
 class StrategiesFactory{
@@ -16,7 +17,7 @@ private:
 public:
     StrategiesFactory();
 
-    std::unique_ptr<Strategy> create_strategy(const std::string& title) const;
+    Strategy create_strategy(const std::string& title) const;
 
-    std::map<std::string, std::string> get_strategies_description() const;
+    StrategiesDescription get_strategies_description() const;
 };

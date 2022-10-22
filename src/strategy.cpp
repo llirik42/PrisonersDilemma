@@ -4,23 +4,23 @@
 inline const Step COOPERATION_STEP = 'C';
 inline const Step DEFECTION_STEP = 'D';
 
-Strategy::Strategy()=default;
-Strategy::~Strategy()=default;
-Step Strategy::act(){
+RawStrategy::RawStrategy()=default;
+RawStrategy::~RawStrategy()=default;
+Step RawStrategy::act(){
     return 0;
 }
 
-ConstantStrategy::ConstantStrategy(): _step(COOPERATION_STEP) {}
-Step ConstantStrategy::act(){
+RawConstantStrategy::RawConstantStrategy():_step(COOPERATION_STEP) {}
+Step RawConstantStrategy::act(){
     return _step;
 }
 
-Step RandomStrategy::act(){
+Step RawRandomStrategy::act(){
     return (rand() % 2) ? COOPERATION_STEP : DEFECTION_STEP;
 }
 
-PeriodicStrategy::PeriodicStrategy():_steps_count(0), _period(1), _current_step(COOPERATION_STEP) {}
-Step PeriodicStrategy::act(){
+RawPeriodicStrategy::RawPeriodicStrategy():_steps_count(0), _period(1), _current_step(COOPERATION_STEP) {}
+Step RawPeriodicStrategy::act(){
     const Step result = _current_step;
 
     _steps_count++;

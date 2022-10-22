@@ -1,36 +1,40 @@
 #pragma once
 
-class Strategy;
+#include <memory>
 
 using Step = char;
 
-class Strategy{
+class RawStrategy;
+
+using Strategy = std::shared_ptr<RawStrategy>;
+
+class RawStrategy{
 protected:
-    Strategy();
+    RawStrategy();
 public:
-    virtual ~Strategy();
+    virtual ~RawStrategy();
     virtual Step act();
 };
 
-class ConstantStrategy: public Strategy{
+class RawConstantStrategy:public RawStrategy{
 private:
     Step _step;
 public:
-    ConstantStrategy();
+    RawConstantStrategy();
     Step act() override;
 };
 
-class RandomStrategy: public Strategy{
+class RawRandomStrategy:public RawStrategy{
 public:
     Step act() override;
 };
 
-class PeriodicStrategy:public Strategy{
+class RawPeriodicStrategy:public RawStrategy{
 private:
     unsigned int _steps_count;
     unsigned int _period;
     Step _current_step;
 public:
-    PeriodicStrategy();
+    RawPeriodicStrategy();
     Step act() override;
 };

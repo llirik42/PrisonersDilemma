@@ -1,28 +1,28 @@
 #include "strategies_factory.h"
 
 template<typename Type>
-std::unique_ptr<Strategy> create(){
-    return std::make_unique<Type>();
+Strategy create(){
+    return std::make_shared<Type>();
 }
 
 StrategiesFactory::StrategiesFactory(){
     _info["Constant"] = StrategyInfo({
         "Description 1",
-        create<ConstantStrategy>
+        create<RawConstantStrategy>
     });
 
     _info["Random"] = StrategyInfo({
         "Description 2",
-        create<RandomStrategy>
+        create<RawRandomStrategy>
     });
 
     _info["Periodic"] = StrategyInfo({
         "Description 3",
-        create<PeriodicStrategy>
+        create<RawPeriodicStrategy>
     });
 }
 
-std::unique_ptr<Strategy> StrategiesFactory::create_strategy(const std::string& title) const{
+Strategy StrategiesFactory::create_strategy(const std::string& title) const{
     return _info[title].create();
 }
 
