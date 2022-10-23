@@ -8,15 +8,23 @@
 enum ParsingStatus{
     SUCCESS,
     TOO_FEW_ARGS,
-    TOO_MANY_ARGS,
     HELP_IS_NOT_ONLY_ARG,
-    INCORRECT_STRATEGIES,
-    INCORRECT_MODE,
-    INCORRECT_STEPS_COUNT,
-    INCORRECT_MATRIX_PATH
+    INCORRECT_ARGS,
+    TOO_MANY_STRATEGIES_FOR_NON_TOURNAMENT,
+    REPEATED_ARGS,
+    UNKNOWN_STRATEGIES,
+    NO_STRATEGIES,
 };
 
 class ArgsParser{
+    friend void extract_steps_count(char* argv, ArgsParser& parser);
+
+    friend void extract_matrix_file_path(char* argv, ArgsParser& parser);
+
+    friend void extract_game_mode(char* argv, ArgsParser& parser);
+
+    friend void extract_strategies_titles(char* argv, ArgsParser& parser);
+
 private:
     std::vector<std::string> _strategies_titles;
     unsigned int _steps_count;
@@ -24,6 +32,8 @@ private:
     GameMode _game_mode;
     ParsingStatus _parsing_status;
     bool _help;
+
+    void parse(int arc, char** argv, const StrategiesDescription& strategies_description);
 public:
     ArgsParser(int arc, char** argv, const StrategiesDescription& strategies_description);
 

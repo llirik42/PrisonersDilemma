@@ -17,7 +17,7 @@ private:
 public:
     StrategiesFactory();
 
-    Strategy create_strategy(const std::string& title) const;
+    [[nodiscard]] Strategy create_strategy(const std::string& title) const;
 
-    StrategiesDescription get_strategies_description() const;
+    [[nodiscard]] StrategiesDescription get_strategies_description() const;
 };

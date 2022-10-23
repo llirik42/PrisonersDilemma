@@ -13,7 +13,7 @@ set(test_name test)
 #    add_compile_options(-Wall -Wextra -pedantic -Werror)
 #endif()
 
-add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp src/viewer.cpp)
+add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp src/viewers.cpp src/args_parser.cpp)
 
 add_executable(${exe_name} src/main.cpp)
 target_link_libraries(${exe_name} corelib)
@@ -29,4 +29,3 @@ FetchContent_MakeAvailable(googletest)
 add_executable(${test_name} tests/matrix_test.cpp)
 target_link_libraries(${test_name} gtest_main)
 target_link_libraries(${test_name} corelib)
-

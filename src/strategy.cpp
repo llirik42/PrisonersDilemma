@@ -32,4 +32,3 @@ Step RawPeriodicStrategy::act(){
 
     return result;
 }
-

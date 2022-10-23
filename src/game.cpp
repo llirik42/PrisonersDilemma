@@ -1,7 +1,7 @@
 #include <iostream>
 #include "game.h"
 #include "utils.h"
-#include "viewer.h"
+#include "viewers.h"
 
 enum CommandReadingStatus{
     QUIT_COMMAND,
@@ -35,11 +35,11 @@ void add_score(const Row& source, Score& destination){
     destination[2] += source[2];
 }
 
-StrategiesTriplet Game::extract_strategies_triplet(StrategiesIndexes indexes){
+StrategiesTriplet Game::extract_strategies_triplet(StrategiesIndexes indexes) const{
     return StrategiesTriplet({_strategies[indexes[0]], _strategies[indexes[1]], _strategies[indexes[2]]});
 }
 
-Score Game::competition(StrategiesTriplet& strategies_triplet){
+Score Game::competition(StrategiesTriplet& strategies_triplet) const{
     Score score({0, 0, 0});
 
     for (unsigned int i = 0; i < _steps_count; i++){
@@ -50,7 +50,7 @@ Score Game::competition(StrategiesTriplet& strategies_triplet){
                 break;
             }
             if (status == INCORRECT_COMMAND){
-                Viewer::view_incorrect_command();
+                GameViewer::view_incorrect_command();
             }
         }
 
@@ -63,7 +63,7 @@ Score Game::competition(StrategiesTriplet& strategies_triplet){
         add_score(delta_score, score);
 
         if (_mode == DETAILED){
-            Viewer::view_round(score, steps, delta_score);
+            GameViewer::view_round(score, steps, delta_score);
         }
     }
 
@@ -92,7 +92,7 @@ Score Game::tournament(){
 }
 
 Game::Game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode):
-        _viewer(Viewer(strategies.size())), _strategies(strategies), _matrix(matrix), _steps_count(steps_count), _mode(mode) {}
+        _viewer(GameViewer(strategies.size())), _strategies(strategies), _matrix(matrix), _steps_count(steps_count), _mode(mode) {}
 
 void Game::start(){
     Score score;
@@ -106,5 +106,5 @@ void Game::start(){
         score = tournament();
     }
 
-    Viewer::view_final_score(score);
+    GameViewer::view_final_score(score);
 }
