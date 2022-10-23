@@ -1,19 +1,19 @@
 cmake_minimum_required(VERSION 3.23)
-project(PrisonersDilemma)
 
 set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_CXX_COMPILER "g++.exe")
+set(CMAKE_C_COMPILER "gcc.exe")
+
+project(PrisonersDilemma)
 
 set(exe_name ${PROJECT_NAME})
 set(test_name test)
 
+add_compile_options(-Wall -Wextra -pedantic -Werror)
 
-#if (MSVC)
-#    add_compile_options(/W4 /WX)
-# else()
-#    add_compile_options(-Wall -Wextra -pedantic -Werror)
-#endif()
-
-add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp src/viewers.cpp src/args_parser.cpp)
+add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp src/viewers.cpp
+        src/args_parser.cpp)
 
 add_executable(${exe_name} src/main.cpp)
 target_link_libraries(${exe_name} corelib)

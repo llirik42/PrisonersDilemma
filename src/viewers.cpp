@@ -86,8 +86,35 @@ void GameViewer::view_final_score(const Score& final_score){
     view_container<const Score&, int>("Final score", final_score, false);
 }
 
-void GameViewer::view_help_command(const StrategiesDescription& strategies_description){
-    std::cout << "Help command)\n";
+void GameViewer::view_help_command(StrategiesDescription& strategies_description){
+    std::cout << "The program is the simulator of Prisoner's dilemma for 3 players. It can arrange classical rounds "
+                 "with 3 players and tournament, where all kinds of threes are being competed.\n\n";
+
+    std::cout << "Usage PrisonersDilemma [--help]  [--matrix=MATRIX_PATH] [--steps=STEPS] "
+                 "[--mode=detailed|fast|tournament] --strategies=[S1,S2,S3,...]\n\n";
+
+    std::cout << "Options:\n";
+
+    std::vector<std::array<std::string, 2>> tmp({
+        {"help", "Help"},
+        {"matrix=MATRIX_PATH", "Path to file of matrix"},
+        {"steps=STEPS", "Number of steps in game. If mode=tournament, it is number of steps in round"},
+        {"mode=detailed|fast|tournament", "Game of mode. "},
+        {"strategies=[S1,S2,S3,...]", "5"},
+        });
+
+    for(const auto& i: tmp){
+        std::cout << "          --";
+        std::cout.width(50);
+        std::cout.setf(std::ostream::left);
+
+        std::cout << i[0] << i[1] << '\n';
+
+        std::cout.unsetf(std::ostream::left);
+
+    }
+
+    std::cout << strategies_description["123"];
 }
 
 void GameViewer::view_round(const Score& current_score, const Triplet<Step>& choices, const Score& delta_score){
@@ -107,5 +134,5 @@ void GameViewer::view_parsing_error(ParsingStatus status){
         {NO_STRATEGIES, "At least 3 strategies must be chosen"}
         });
 
-    std::cout << status_to_message[status] << "\n";
+    std::cout << status_to_message[status] << ". See --help";
 }

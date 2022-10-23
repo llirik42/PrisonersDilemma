@@ -7,7 +7,7 @@ int main(int arc, char** argv){
 
     StrategiesFactory factory = StrategiesFactory();
 
-    const StrategiesDescription strategies_description = factory.get_strategies_description();
+    StrategiesDescription strategies_description = factory.get_strategies_description();
 
     ArgsParser args_parser(arc, argv, strategies_description);
 

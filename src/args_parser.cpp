@@ -99,7 +99,7 @@ void ArgsParser::parse(int arc, char** argv, const StrategiesDescription& strate
         {"--matrix", extract_matrix_file_path}
     });
 
-    for (unsigned int i = 1; i < arc; i++){
+    for (int i = 1; i < arc; i++){
         std::string current_arg_name = extract_arg_name(argv[i]);
 
         if (met_arg[current_arg_name]){
@@ -178,7 +178,7 @@ ArgsParser::ArgsParser(int arc, char** argv, const StrategiesDescription& strate
 
     std::regex arg_regex(R"(--((help)|(steps=([1-9])([0-9])*)|(matrix=.+)|(mode=((fast)|(detailed)|(tournament)))|(strategies=(\[).+,.+,.+(,.+)*(\]))))");
 
-    for (unsigned int i = 1; i < arc; i++){
+    for (int i = 1; i < arc; i++){
         if (!std::regex_match(argv[i], arg_regex)){
             _parsing_status = INCORRECT_ARGS;
             return;
