@@ -47,7 +47,7 @@ void Viewer::view_final_score(const Score& final_score){
     view_container<const Score&, int>("Final score", final_score, false);
 }
 
-void Viewer::view_help_command(const StrategiesDescription& strategies_description){
+void Viewer::view_help_command(const StrategiesDescription& strategies_description) const{
 
 }
 
@@ -88,4 +88,18 @@ void Viewer::view_round(const Score& current_score, const Score& delta_score, St
 
     view_container<const Score&, int>("", current_score, false);
     std::cout << '\n';
+}
+
+void Viewer::view_parsing_error(ParsingStatus status){
+    static std::map<ParsingStatus, std::string> status_to_message({
+        {TOO_FEW_ARGS, "123"},
+        {TOO_MANY_ARGS, "123"},
+        {HELP_IS_NOT_ONLY_ARG, "123"},
+        {INCORRECT_STRATEGIES, "123"},
+        {INCORRECT_MODE, "123"},
+        {INCORRECT_STEPS_COUNT, "123"},
+        {INCORRECT_MATRIX_PATH, "123"},
+        });
+
+    std::cout << status_to_message[status] << "\n";
 }
