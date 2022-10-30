@@ -4,7 +4,7 @@
 #include "args_parser.h"
 
 bool validate_directory(const std::string& path){
-    std::string full_path = path + "~tmp";
+    std::string full_path = path + "/~tmp";
 
     if (!path.empty()){
         std::ofstream ofstream(full_path);
@@ -131,6 +131,7 @@ void extract_matrix_file_path(const char* arg, ArgsParser& parser){
 
 void extract_configs_path(const char* arg, ArgsParser& parser){
     parser._configs_path = extract_string_arg_value(arg);
+    parser._configs_path.erase(parser._configs_path.size() - 1); // remove '/' from configs_path
 }
 
 void extract_game_mode(const char* arg, ArgsParser& parser){

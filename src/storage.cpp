@@ -50,7 +50,7 @@ History AbstractStorage::get_previous_games_history() const{
 Storage::Storage(const std::string& configs_path){
     _ids_count = 0;
     _id_of_strateg = 0; // 0 - means no strateg, id of strateg would be shifted by 1 (1 instead of 0 etc.)
-    _configs_path = configs_path;
+    _configs_path = configs_path + '/';
 
     read_strategic_data(_configs_path, _history_of_strateg);
 }
