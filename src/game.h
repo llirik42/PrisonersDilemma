@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "utils.h"
-#include "abstract_strategy.h"
+#include "strategies/abstract_strategy.h"
 #include "matrix.h"
 #include "viewer.h"
 

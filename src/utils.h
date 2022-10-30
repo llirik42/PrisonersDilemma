@@ -5,6 +5,9 @@
 
 using Step = char;
 
+inline const Step COOPERATION_STEP = 'C';
+inline const Step DEFECTION_STEP = 'D';
+
 template<typename Type>
 using Triplet = std::array<Type, 3>; // 3 values in one row
 

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <map>
-#include "abstract_strategy.h"
+#include "strategies/abstract_strategy.h"
 
 using StrategiesDescription = std::map<std::string, std::string>;
 

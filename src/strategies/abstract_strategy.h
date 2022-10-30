@@ -1,11 +1,7 @@
 #pragma once
 
 #include <memory>
-
-using Step = char;
-
-inline const Step COOPERATION_STEP = 'C';
-inline const Step DEFECTION_STEP = 'D';
+#include "../utils.h"
 
 class RawAbstractStrategy;
 

@@ -1,8 +1,7 @@
 #include "strategies_factory.h"
-
-#include "strategies/constant_strategy.h"
-#include "strategies/random_strategy.h"
-#include "strategies/periodic_strategy.h"
+#include "strategies/simple_strategies/constant_strategy.h"
+#include "strategies/simple_strategies/random_strategy.h"
+#include "strategies/simple_strategies/periodic_strategy.h"
 
 template<typename Type>
 Strategy create(){
