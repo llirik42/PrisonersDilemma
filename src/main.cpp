@@ -30,13 +30,21 @@ int main(int arc, char** argv){
         return 1;
     }
 
-    Storage storage = Storage();
+    Storage storage = Storage(args_parser.get_configs_path());
+
+    History previous_games_history = storage.get_previous_games_history();
 
     StrategiesVector strategies_list;
     for (const auto& title : args_parser.get_strategies_names()){
         Strategy new_strategy = factory.create_strategy(title);
 
         storage.register_strategy(new_strategy);
+
+        if (new_strategy->is_super_smart()){
+            storage.register_strateg(new_strategy);
+        }
+
+        new_strategy->apply_previous_games_experience(previous_games_history);
 
         strategies_list.push_back(new_strategy);
     }
