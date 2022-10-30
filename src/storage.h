@@ -2,26 +2,34 @@
 
 #include <vector>
 #include <array>
+#include <string>
 #include "utils.h"
 
-using EnemiesChoice = std::array<Step, 2>;
-using History = std::vector<EnemiesChoice>;
+using Choices = std::vector<Step>;
+using History = std::vector<Choices>;
 
 class AbstractStorage{
 public:
-    [[nodiscard]] virtual EnemiesChoice get_last_enemies_choice() const;
-    virtual void append_enemies_choice(EnemiesChoice choice);
-    virtual ~AbstractStorage();
+    [[nodiscard]] virtual Choices get_last_enemies_choices(unsigned int id) const;
+    virtual void append_choices(Choices choices);
+    virtual ~AbstractStorage()=default;
 protected:
-    AbstractStorage();
+    AbstractStorage()=default;
 private:
 };
 
-class FileStorage: public AbstractStorage{
+class Storage:public AbstractStorage{
 public:
-    bool is_empty();
-    [[nodiscard]] EnemiesChoice get_last_enemies_choice() const override;
-    void append_enemies_choice(EnemiesChoice choice) override;
+    Storage()=default;
+    explicit Storage(const std::string& configs_path);
+
+    [[nodiscard]] bool is_empty() const;
+    [[nodiscard]] Choices get_last_enemies_choices(unsigned int id) const override;
+    [[nodiscard]] unsigned int get_free_id();
+
+    void append_choices(Choices choices) override;
 private:
+    unsigned int _ids_count;
+    std::string _configs_path;
     History _history;
 };

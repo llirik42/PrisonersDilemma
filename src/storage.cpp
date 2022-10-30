@@ -1,25 +1,37 @@
 #include "storage.h"
 
-AbstractStorage::AbstractStorage()=default;
-
-EnemiesChoice AbstractStorage::get_last_enemies_choice() const{
-    return EnemiesChoice({COOPERATION_STEP, COOPERATION_STEP});
+Choices AbstractStorage::get_last_enemies_choices([[maybe_unused]] unsigned int id) const{
+    return {};
 }
 
-void AbstractStorage::append_enemies_choice([[maybe_unused]] EnemiesChoice choice){
+void AbstractStorage::append_choices([[maybe_unused]] Choices choice){}
 
-}
-
-AbstractStorage::~AbstractStorage()=default;
-
-bool FileStorage::is_empty(){
+bool Storage::is_empty() const{
     return !_history.empty();
 }
 
-EnemiesChoice FileStorage::get_last_enemies_choice() const{
-    return _history.back();
+Choices Storage::get_last_enemies_choices(unsigned int id) const{
+    Choices result;
+
+    const Choices last_choices = _history.back();
+    for (unsigned int i = 0; i < last_choices.size(); i++){
+        if (i != id){
+            result.push_back(last_choices[i]);
+        }
+    }
+
+    return result;
 }
 
-void FileStorage::append_enemies_choice(EnemiesChoice choice){
-   _history.push_back(choice);
+Storage::Storage(const std::string& configs_path){
+    _ids_count = 0;
+    _configs_path = configs_path;
+}
+
+unsigned int Storage::get_free_id(){
+    return _ids_count++;
+}
+
+void Storage::append_choices(Choices choices){
+    _history.push_back(choices);
 }

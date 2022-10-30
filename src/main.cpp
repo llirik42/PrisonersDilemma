@@ -1,6 +1,7 @@
 #include "strategies_factory.h"
 #include "args_parser.h"
 #include "game.h"
+#include "storage.h"
 
 int main(int arc, char** argv){
     srand(time(nullptr));
@@ -28,6 +29,8 @@ int main(int arc, char** argv){
         GameViewer::view_incorrect_matrix();
         return 1;
     }
+
+    Storage storage = Storage();
 
     StrategiesVector strategies_list;
     for (const auto& title : args_parser.get_strategies_titles()){
