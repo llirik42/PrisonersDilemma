@@ -1,7 +1,7 @@
 #include <iostream>
 #include "game.h"
 #include "utils.h"
-#include "viewers.h"
+#include "viewer.h"
 
 enum CommandReadingStatus{
     QUIT_COMMAND,

@@ -2,14 +2,18 @@
 
 #include <vector>
 #include "utils.h"
-#include "strategy.h"
+#include "abstract_strategy.h"
 #include "matrix.h"
-#include "viewers.h"
+#include "viewer.h"
 
 using StrategiesTriplet = Triplet<Strategy>;
 using StrategiesVector = std::vector<Strategy>;
 
 class Game{
+public:
+    Game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode);
+
+    void start();
 private:
     GameViewer _viewer;
     const StrategiesVector& _strategies;
@@ -22,8 +26,4 @@ private:
     Score competition(StrategiesTriplet& strategies_triplet) const;
 
     Score tournament();
-public:
-    Game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode);
-
-    void start();
 };

@@ -12,10 +12,11 @@ set(test_name test)
 
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
-add_library(corelib OBJECT src/matrix.cpp src/strategy.cpp src/strategies_factory.cpp src/game.cpp src/viewers.cpp
-        src/args_parser.cpp)
+file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} src/strategies/*.cpp)
+add_library(corelib OBJECT ${SOURCES} src/abstract_strategy.cpp
+        src/args_parser.cpp src/game.cpp src/matrix.cpp src/strategies_factory.cpp src/viewer.cpp)
 
-add_executable(${exe_name} src/main.cpp)
+add_executable(${exe_name} src/main.cpp )
 target_link_libraries(${exe_name} corelib)
 
 include(FetchContent)

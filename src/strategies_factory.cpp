@@ -1,5 +1,9 @@
 #include "strategies_factory.h"
 
+#include "strategies/constant_strategy.h"
+#include "strategies/random_strategy.h"
+#include "strategies/periodic_strategy.h"
+
 template<typename Type>
 Strategy create(){
     return std::make_shared<Type>();
@@ -7,17 +11,17 @@ Strategy create(){
 
 StrategiesFactory::StrategiesFactory(){
     _info["Constant"] = StrategyInfo({
-        "Description 1",
+        "Always cooperates",
         create<RawConstantStrategy>
     });
 
     _info["Random"] = StrategyInfo({
-        "Description 2",
+        "Tries to make a random decision",
         create<RawRandomStrategy>
     });
 
     _info["Periodic"] = StrategyInfo({
-        "Description 3",
+        "Starts with cooperation and then alternates with period of 1",
         create<RawPeriodicStrategy>
     });
 }

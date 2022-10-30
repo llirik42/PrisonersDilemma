@@ -1,7 +1,11 @@
-#include "viewers.h"
+#include "viewer.h"
 #include <iostream>
 
-inline const unsigned int WIDTH = 20;
+inline const unsigned int WIDTH2 = 20;
+inline const unsigned int WIDTH_FOR_LIST = 40;
+inline const unsigned int LIST_INDENT = 10;
+
+using ListWithDescription = std::map<std::string, std::string>;
 
 template<typename Container, typename Element>
 void view_container(const std::string& title, Container container, bool unary_plus){
@@ -17,13 +21,30 @@ void view_container(const std::string& title, Container container, bool unary_pl
     }
 
     for (Element i : container){
-        std::cout.width(WIDTH);
+        std::cout.width(WIDTH2);
         std::cout << i;
     }
     std::cout << "\n";
 
     std::cout.unsetf(std::ostream::right);
     std::cout.unsetf(std::ostream::showpos);
+}
+
+void view_list(const std::string& list_title, const ListWithDescription& list, bool args){
+    std::cout << list_title << ":\n";
+    for (const auto& element : list){
+        for (unsigned int i = 0; i < LIST_INDENT; i++){
+            std::cout << ' ';
+        }
+        if (args){
+            std::cout << "--";
+        }
+
+        std::cout.width(WIDTH_FOR_LIST + 2 * (1 - args));
+        std::cout.setf(std::ostream::left);
+        std::cout << element.first << element.second << '\n';
+        std::cout.unsetf(std::ostream::left);
+    }
 }
 
 GameViewer::GameViewer():_players_count(0), _rounds_counter(0) {}
@@ -33,7 +54,7 @@ GameViewer::GameViewer(unsigned int players_count):_players_count(players_count)
         std::string out({'P'});
         out += std::to_string(i + 1);
 
-        std::cout.width(WIDTH);
+        std::cout.width(WIDTH2);
 
         std::cout << out;
     }
@@ -49,7 +70,7 @@ void GameViewer::view_round(const Score& current_score, const Score& delta_score
     std::cout.fill(' ');
 
     for (unsigned int i = 0; i < _players_count; i++){
-        std::cout.width(WIDTH);
+        std::cout.width(WIDTH2);
 
         int tmp_index = -1;
         for (unsigned int j = 0; j < indexes.size(); j++){
@@ -86,35 +107,30 @@ void GameViewer::view_final_score(const Score& final_score){
     view_container<const Score&, int>("Final score", final_score, false);
 }
 
-void GameViewer::view_help_command(StrategiesDescription& strategies_description){
-    std::cout << "The program is the simulator of Prisoner's dilemma for 3 players. It can arrange classical rounds "
+void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strategies_description){
+    std::cout << "The program is the simulator of Prisoner's dilemma for 3 players. It arranges classical rounds "
                  "with 3 players and tournament, where all kinds of threes are being competed.\n\n";
 
     std::cout << "Usage PrisonersDilemma [--help]  [--matrix=MATRIX_PATH] [--steps=STEPS] "
                  "[--mode=detailed|fast|tournament] --strategies=[S1,S2,S3,...]\n\n";
 
-    std::cout << "Options:\n";
-
-    std::vector<std::array<std::string, 2>> tmp({
+    std::map<std::string, std::string> tmp({
         {"help", "Help"},
         {"matrix=MATRIX_PATH", "Path to file of matrix"},
-        {"steps=STEPS", "Number of steps in game. If mode=tournament, it is number of steps in round"},
-        {"mode=detailed|fast|tournament", "Game of mode. "},
-        {"strategies=[S1,S2,S3,...]", "5"},
+        {"steps=STEPS", "Number of steps in game (in a round if mode=tournament)"},
+        {"mode=detailed|fast|tournament", R"(Game of mode. "detailed" can be interrupted by the "quit")"},
+        {"strategies=[S1,S2,S3,...]", "List of strategies in the game (at least 3). Strategies must go with no spaces"},
         });
 
-    for(const auto& i: tmp){
-        std::cout << "          --";
-        std::cout.width(50);
-        std::cout.setf(std::ostream::left);
+    std::map<std::string, std::string> modes({
+        {"fast", "The program calculates the specified number of moves and outputs the result"},
+        {"detailed", "At each step, the program waits for a keystroke and after it prints data for this round and takes one step"},
+        {"tournament", "The program iterates through all possible triples and identifies the winner by the sum of points"}
+    });
 
-        std::cout << i[0] << i[1] << '\n';
-
-        std::cout.unsetf(std::ostream::left);
-
-    }
-
-    std::cout << strategies_description["123"];
+    view_list("Options", tmp, true);
+    view_list("Strategies", strategies_description, false);
+    view_list("Modes", modes, false);
 }
 
 void GameViewer::view_round(const Score& current_score, const Triplet<Step>& choices, const Score& delta_score){
