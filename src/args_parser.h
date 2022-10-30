@@ -14,6 +14,7 @@ enum ParsingStatus{
     TOO_MANY_STRATEGIES_FOR_NON_TOURNAMENT,
     UNKNOWN_STRATEGIES,
     NO_STRATEGIES,
+    INCORRECT_CONFIGS_PATH,
 };
 
 class ArgsParser{
@@ -23,19 +24,22 @@ public:
 
     [[nodiscard]] ParsingStatus get_parsing_status() const;
 
-    [[nodiscard]] bool is_help_mode() const;
-
     [[nodiscard]] const std::vector<std::string>& get_strategies_names() const;
 
     [[nodiscard]] unsigned int get_steps_count() const;
 
     [[nodiscard]] const std::string& get_matrix_file_path() const;
 
+    [[nodiscard]] const std::string& get_configs_path() const;
+
     [[nodiscard]] GameMode get_game_mode() const;
+
+    [[nodiscard]] bool is_help_mode() const;
 private:
     std::vector<std::string> _strategies_names;
     unsigned int _steps_count;
     std::string _matrix_file_path;
+    std::string _configs_path;
     GameMode _game_mode;
     ParsingStatus _parsing_status;
     bool _help;
@@ -47,6 +51,8 @@ private:
     friend void extract_steps_count(const char* arg, ArgsParser& parser);
 
     friend void extract_matrix_file_path(const char* arg, ArgsParser& parser);
+
+    friend void extract_configs_path(const char* arg, ArgsParser& parser);
 
     friend void extract_game_mode(const char* arg, ArgsParser& parser);
 

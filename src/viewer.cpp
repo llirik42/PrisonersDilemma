@@ -1,5 +1,11 @@
-#include "viewer.h"
 #include <iostream>
+#include <limits>
+#include "viewer.h"
+
+struct ArgsInfo{
+    std::string description;
+    bool is_necessary;
+};
 
 inline const unsigned int WIDTH2 = 20;
 inline const unsigned int WIDTH_FOR_LIST = 40;
@@ -69,17 +75,19 @@ void GameViewer::view_round(const Score& current_score, const Score& delta_score
     std::cout.setf(std::ostream::right);
     std::cout.fill(' ');
 
+    const unsigned int index_of_failure = std::numeric_limits<unsigned int>::max();
+
     for (unsigned int i = 0; i < _players_count; i++){
         std::cout.width(WIDTH2);
 
-        int tmp_index = -1;
+        unsigned int tmp_index = index_of_failure;
         for (unsigned int j = 0; j < indexes.size(); j++){
             if (indexes[j] == i){
                 tmp_index = j;
             }
         }
 
-        if (tmp_index != -1){
+        if (tmp_index != index_of_failure){
             std::cout << delta_score[tmp_index];
         }
         else{
@@ -111,18 +119,36 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
     std::cout << "The program is the simulator of Prisoner's dilemma for 3 players. It arranges classical rounds "
                  "with 3 players and tournament, where all kinds of threes are being competed.\n\n";
 
-    std::cout << "Usage PrisonersDilemma [--help]  [--matrix=MATRIX_PATH] [--steps=STEPS] "
-                 "[--mode=detailed|fast|tournament] --strategies=[S1,S2,S3,...]\n\n";
-
-    std::map<std::string, std::string> args_description({
-        {"help", "Help"},
-        {"matrix=MATRIX_PATH", "Path to file of matrix"},
-        {"steps=STEPS", "Number of steps in game (in a round if mode=tournament)"},
-        {"mode=detailed|fast|tournament", R"(Game of mode. "detailed" can be interrupted by the "quit")"},
-        {"strategies=[S1,S2,S3,...]", "List of strategies in the game (at least 3). Strategies must go with no spaces"},
+    std::map<std::string, ArgsInfo> args_info({
+        {"help", {"Help", false}},
+        {"matrix=MATRIX_PATH", {"Path to file of matrix", false}},
+        {"steps=STEPS", {"Number of steps in game (in a round if mode=tournament)", false}},
+        {"mode=detailed|fast|tournament", {R"(Game of mode. "detailed" can be interrupted by the "quit")", false}},
+        {"strategies=[S1,S2,S3,...]", {"List of strategies in the game (at least 3). Strategies must go with no spaces", true}},
+        {"configs=CONFIGS_PATH", {"Directory with files of simulator. Must end with /", false}},
         });
 
-    std::map<std::string, std::string> modes_description({
+    ListWithDescription args_description;
+
+    std::cout << "Usage PrisonersDilemma ";
+    for (const auto& arg: args_info){
+        bool is_arg_necessary = arg.second.is_necessary;
+
+        if (!is_arg_necessary){
+            std::cout << '[';
+        }
+
+        std::cout << "--" << arg.first;
+
+        if (!is_arg_necessary){
+            std::cout << "] ";
+        }
+
+        args_description[arg.first] = arg.second.description;
+    }
+    std::cout << "\n\n";
+
+    ListWithDescription modes_description({
         {"fast", "The program calculates the specified number of moves and outputs the result"},
         {"detailed", "At each step, the program waits for a keystroke and after it prints data for this round and takes one step"},
         {"tournament", "The program iterates through all possible triples and identifies the winner by the sum of points"}
@@ -147,7 +173,8 @@ void GameViewer::view_parsing_error(ParsingStatus status){
         {INCORRECT_ARGS, "Incorrect args"},
         {REPEATED_ARGS, "Some args are repeated"},
         {UNKNOWN_STRATEGIES, "Unknown strategies"},
-        {NO_STRATEGIES, "At least 3 strategies must be chosen"}
+        {NO_STRATEGIES, "At least 3 strategies must be chosen"},
+        {INCORRECT_CONFIGS_PATH, "Incorrect path of configs"},
         });
 
     std::cout << status_to_message[status] << ". See --help";

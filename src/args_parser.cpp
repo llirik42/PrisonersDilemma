@@ -1,5 +1,23 @@
 #include <regex>
+#include <fstream>
+#include <cstdio>
 #include "args_parser.h"
+
+bool validate_directory(const std::string& path){
+    std::string full_path = path + "~tmp";
+
+    if (!path.empty()){
+        std::ofstream ofstream(full_path);
+        if (!ofstream.is_open()){
+            return false;
+        }
+        ofstream.close();
+    }
+
+    remove(full_path.c_str());
+
+    return true;
+}
 
 inline bool points_to_end(const char* const pointer){
     return pointer[0] == '\0';
@@ -17,8 +35,21 @@ void move_to_equal_and_step(const char** const pointer){
     (*pointer)++;
 }
 
+std::string extract_string_arg_value(const char* arg){
+    std::string result;
+
+    move_to_equal_and_step(&arg);
+
+    while (!points_to_end(arg)){
+        result += *arg;
+        arg++;
+    }
+
+    return result;
+}
+
 ParsingStatus validate_args(int arc, const char** argv){
-    std::regex arg_regex(R"(--((help)|(steps=([1-9])([0-9])*)|(matrix=.+)|(mode=((fast)|(detailed)|(tournament)))|(strategies=(\[).+,.+,.+(,.+)*(\]))))");
+    std::regex arg_regex(R"(--((configs=.+)|(help)|(steps=([1-9])([0-9])*)|(matrix=.+)|(mode=((fast)|(detailed)|(tournament)))|(strategies=(\[).+,.+,.+(,.+)*(\]))))");
 
     for (int i = 1; i < arc; i++){
         if (!std::regex_match(argv[i], arg_regex)){
@@ -95,14 +126,11 @@ void extract_steps_count(const char* arg, ArgsParser& parser){
 }
 
 void extract_matrix_file_path(const char* arg, ArgsParser& parser){
-    parser._matrix_file_path = "";
+    parser._matrix_file_path = extract_string_arg_value(arg);
+}
 
-    move_to_equal_and_step(&arg);
-
-    while (!points_to_end(arg)){
-        parser._matrix_file_path += *arg;
-        arg++;
-    }
+void extract_configs_path(const char* arg, ArgsParser& parser){
+    parser._configs_path = extract_string_arg_value(arg);
 }
 
 void extract_game_mode(const char* arg, ArgsParser& parser){
@@ -144,7 +172,8 @@ void extract_args(int arc, const char** argv, ArgsParser::MetArgsMap& met_args, 
         {"--strategies", extract_strategies_names},
         {"--mode",       extract_game_mode},
         {"--steps",      extract_steps_count},
-        {"--matrix",     extract_matrix_file_path}
+        {"--matrix",     extract_matrix_file_path},
+        {"--configs", extract_configs_path}
     });
 
     for (int i = 1; i < arc; i++){
@@ -169,7 +198,8 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
         {"--strategies", false},
         {"--mode", false},
         {"--steps", false},
-        {"--matrix", false}
+        {"--matrix", false},
+        {"--configs", false}
     });
 
     extract_args(arc, argv, met_args, *this);
@@ -197,6 +227,12 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     ParsingStatus strategies_validation_status = validate_strategies(*this, strategies_description);
     if (strategies_validation_status != SUCCESS){
         _parsing_status = strategies_validation_status;
+        return;
+    }
+
+    if (!_configs_path.empty() && !validate_directory(_configs_path)){
+        _parsing_status = INCORRECT_CONFIGS_PATH;
+        return;
     }
 
     if (_strategies_names.size() > 3 && !met_args["--mode"]){
@@ -209,6 +245,7 @@ ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& 
     _steps_count = 1;
     _game_mode = DETAILED;
     _matrix_file_path = "../matrices/matrix_2";
+    _configs_path = "";
     _help = false;
     _parsing_status = SUCCESS;
 
@@ -236,6 +273,10 @@ unsigned int ArgsParser::get_steps_count() const{
 
 const std::string& ArgsParser::get_matrix_file_path() const{
     return _matrix_file_path;
+}
+
+const std::string& ArgsParser::get_configs_path() const{
+    return _configs_path;
 }
 
 GameMode ArgsParser::get_game_mode() const{
