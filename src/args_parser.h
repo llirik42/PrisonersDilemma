@@ -19,7 +19,7 @@ enum ParsingStatus{
 class ArgsParser{
     using MetArgsMap = std::map<std::string, bool>;
 public:
-    ArgsParser(int arc, char** argv, const StrategiesDescription& strategies_description);
+    ArgsParser(int arc, const char** argv, const StrategiesDescription& strategies_description);
 
     [[nodiscard]] ParsingStatus get_parsing_status() const;
 
@@ -32,7 +32,6 @@ public:
     [[nodiscard]] const std::string& get_matrix_file_path() const;
 
     [[nodiscard]] GameMode get_game_mode() const;
-
 private:
     std::vector<std::string> _strategies_names;
     unsigned int _steps_count;
@@ -41,17 +40,17 @@ private:
     ParsingStatus _parsing_status;
     bool _help;
 
-    void parse(int arc, char** argv, const StrategiesDescription& strategies_description);
+    void parse(int arc, const char** argv, const StrategiesDescription& strategies_description);
 
-    friend void extract_args(int arc, char** argv, MetArgsMap& met_args, ArgsParser& parser);
+    friend void extract_args(int arc, const char** argv, MetArgsMap& met_args, ArgsParser& parser);
 
-    friend void extract_steps_count(char* arg, ArgsParser& parser);
+    friend void extract_steps_count(const char* arg, ArgsParser& parser);
 
-    friend void extract_matrix_file_path(char* arg, ArgsParser& parser);
+    friend void extract_matrix_file_path(const char* arg, ArgsParser& parser);
 
-    friend void extract_game_mode(char* arg, ArgsParser& parser);
+    friend void extract_game_mode(const char* arg, ArgsParser& parser);
 
-    friend void extract_strategies_names(char* arg, ArgsParser& parser);
+    friend void extract_strategies_names(const char* arg, ArgsParser& parser);
 
     friend ParsingStatus validate_count_of_met_args(const MetArgsMap& met_args);
 

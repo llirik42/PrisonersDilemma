@@ -9,7 +9,7 @@ inline bool points_to_equal(const char* const pointer){
     return pointer[0] == '=';
 }
 
-void move_to_equal_and_step(char** pointer){
+void move_to_equal_and_step(const char** const pointer){
     while (!points_to_equal(*pointer)){
         (*pointer)++;
     }
@@ -17,7 +17,7 @@ void move_to_equal_and_step(char** pointer){
     (*pointer)++;
 }
 
-ParsingStatus validate_args(int arc, char** argv){
+ParsingStatus validate_args(int arc, const char** argv){
     std::regex arg_regex(R"(--((help)|(steps=([1-9])([0-9])*)|(matrix=.+)|(mode=((fast)|(detailed)|(tournament)))|(strategies=(\[).+,.+,.+(,.+)*(\]))))");
 
     for (int i = 1; i < arc; i++){
@@ -83,7 +83,7 @@ std::string extract_arg_name(const char* arg){
     return result;
 }
 
-void extract_steps_count(char* arg, ArgsParser& parser){
+void extract_steps_count(const char* arg, ArgsParser& parser){
     parser._steps_count = 0;
 
     move_to_equal_and_step(&arg);
@@ -94,7 +94,7 @@ void extract_steps_count(char* arg, ArgsParser& parser){
     }
 }
 
-void extract_matrix_file_path(char* arg, ArgsParser& parser){
+void extract_matrix_file_path(const char* arg, ArgsParser& parser){
     parser._matrix_file_path = "";
 
     move_to_equal_and_step(&arg);
@@ -105,7 +105,7 @@ void extract_matrix_file_path(char* arg, ArgsParser& parser){
     }
 }
 
-void extract_game_mode(char* arg, ArgsParser& parser){
+void extract_game_mode(const char* arg, ArgsParser& parser){
     move_to_equal_and_step(&arg);
 
     // This arg was validated earlier, so it can be only "Detailed", "Fast" or "Tournament"
@@ -121,7 +121,7 @@ void extract_game_mode(char* arg, ArgsParser& parser){
     }
 }
 
-void extract_strategies_names(char* arg, ArgsParser& parser){
+void extract_strategies_names(const char* arg, ArgsParser& parser){
     move_to_equal_and_step(&arg);
 
     arg++; // Because of '['
@@ -139,8 +139,8 @@ void extract_strategies_names(char* arg, ArgsParser& parser){
     }
 }
 
-void extract_args(int arc, char** argv, ArgsParser::MetArgsMap& met_args, ArgsParser& parser){
-    std::map<std::string,void(*)(char*, ArgsParser&)> extracting_function({
+void extract_args(int arc, const char** argv, ArgsParser::MetArgsMap& met_args, ArgsParser& parser){
+    std::map<std::string,void(*)(const char*, ArgsParser&)> extracting_function({
         {"--strategies", extract_strategies_names},
         {"--mode",       extract_game_mode},
         {"--steps",      extract_steps_count},
@@ -163,7 +163,7 @@ void extract_args(int arc, char** argv, ArgsParser::MetArgsMap& met_args, ArgsPa
     }
 }
 
-void ArgsParser::parse(int arc, char** argv, const StrategiesDescription& strategies_description){
+void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& strategies_description){
     MetArgsMap met_args({
         {"--help", false},
         {"--strategies", false},
@@ -180,8 +180,12 @@ void ArgsParser::parse(int arc, char** argv, const StrategiesDescription& strate
         return;
     }
 
-    if (!is_help_only_arg(met_args)){
-        _parsing_status = HELP_IS_NOT_ONLY_ARG;
+    if (met_args["--help"]){
+        if (!is_help_only_arg(met_args)){
+            _parsing_status = HELP_IS_NOT_ONLY_ARG;
+        }
+
+        _help = true;
         return;
     }
 
@@ -200,7 +204,7 @@ void ArgsParser::parse(int arc, char** argv, const StrategiesDescription& strate
     }
 }
 
-ArgsParser::ArgsParser(int arc, char** argv, const StrategiesDescription& strategies_description){
+ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& strategies_description){
     // default values
     _steps_count = 1;
     _game_mode = DETAILED;
