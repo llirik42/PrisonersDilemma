@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "strategies_factory.h"
+#include <map>
 #include "utils.h"
 
 enum ParsingStatus{
@@ -17,18 +17,24 @@ enum ParsingStatus{
 };
 
 class ArgsParser{
+    using MetArgsMap = std::map<std::string, bool>;
 public:
     ArgsParser(int arc, char** argv, const StrategiesDescription& strategies_description);
 
     [[nodiscard]] ParsingStatus get_parsing_status() const;
+
     [[nodiscard]] bool is_help_mode() const;
 
-    [[nodiscard]] const std::vector<std::string>& get_strategies_titles() const;
+    [[nodiscard]] const std::vector<std::string>& get_strategies_names() const;
+
     [[nodiscard]] unsigned int get_steps_count() const;
+
     [[nodiscard]] const std::string& get_matrix_file_path() const;
+
     [[nodiscard]] GameMode get_game_mode() const;
+
 private:
-    std::vector<std::string> _strategies_titles;
+    std::vector<std::string> _strategies_names;
     unsigned int _steps_count;
     std::string _matrix_file_path;
     GameMode _game_mode;
@@ -37,11 +43,19 @@ private:
 
     void parse(int arc, char** argv, const StrategiesDescription& strategies_description);
 
-    friend void extract_steps_count(char* argv, ArgsParser& parser);
+    friend void extract_args(int arc, char** argv, MetArgsMap& met_args, ArgsParser& parser);
 
-    friend void extract_matrix_file_path(char* argv, ArgsParser& parser);
+    friend void extract_steps_count(char* arg, ArgsParser& parser);
 
-    friend void extract_game_mode(char* argv, ArgsParser& parser);
+    friend void extract_matrix_file_path(char* arg, ArgsParser& parser);
 
-    friend void extract_strategies_titles(char* argv, ArgsParser& parser);
+    friend void extract_game_mode(char* arg, ArgsParser& parser);
+
+    friend void extract_strategies_names(char* arg, ArgsParser& parser);
+
+    friend ParsingStatus validate_count_of_met_args(const MetArgsMap& met_args);
+
+    friend ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDescription& description);
+
+    friend bool is_help_only_arg(MetArgsMap& met_args);
 };

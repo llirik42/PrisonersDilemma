@@ -1,5 +1,4 @@
 #include "strategies_factory.h"
-
 #include "strategies/all_strategies.h"
 
 template<typename Type>

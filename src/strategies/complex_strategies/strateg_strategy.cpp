@@ -1,5 +1,5 @@
-#include "strateg_strategy.h"
 #include <random>
+#include "strateg_strategy.h"
 
 RawStrategStrategy::RawStrategStrategy(): _cooperation_count(0), _defection_count(0) {}
 

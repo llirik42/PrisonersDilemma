@@ -114,7 +114,7 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
     std::cout << "Usage PrisonersDilemma [--help]  [--matrix=MATRIX_PATH] [--steps=STEPS] "
                  "[--mode=detailed|fast|tournament] --strategies=[S1,S2,S3,...]\n\n";
 
-    std::map<std::string, std::string> tmp({
+    std::map<std::string, std::string> args_description({
         {"help", "Help"},
         {"matrix=MATRIX_PATH", "Path to file of matrix"},
         {"steps=STEPS", "Number of steps in game (in a round if mode=tournament)"},
@@ -122,15 +122,15 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
         {"strategies=[S1,S2,S3,...]", "List of strategies in the game (at least 3). Strategies must go with no spaces"},
         });
 
-    std::map<std::string, std::string> modes({
+    std::map<std::string, std::string> modes_description({
         {"fast", "The program calculates the specified number of moves and outputs the result"},
         {"detailed", "At each step, the program waits for a keystroke and after it prints data for this round and takes one step"},
         {"tournament", "The program iterates through all possible triples and identifies the winner by the sum of points"}
     });
 
-    view_list("Options", tmp, true);
+    view_list("Options", args_description, true);
     view_list("Strategies", strategies_description, false);
-    view_list("Modes", modes, false);
+    view_list("Modes", modes_description, false);
 }
 
 void GameViewer::view_round(const Score& current_score, const Choices& choices, const Score& delta_score){

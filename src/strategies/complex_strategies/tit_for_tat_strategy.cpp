@@ -1,5 +1,5 @@
-#include "tit_for_tat_strategy.h"
 #include <random>
+#include "tit_for_tat_strategy.h"
 
 Step RawTitForTatStrategy::act(const Choices& enemies_choices){
     if (enemies_choices.empty()){

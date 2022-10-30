@@ -2,9 +2,8 @@
 
 #include <string>
 #include <map>
+#include "utils.h"
 #include "strategies/abstract_strategy.h"
-
-using StrategiesDescription = std::map<std::string, std::string>;
 
 class StrategiesFactory{
 public:

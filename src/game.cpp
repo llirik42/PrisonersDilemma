@@ -55,15 +55,13 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
         }
 
         Choices current_choices;
-        for (unsigned int j = 0; j < 3; j++){
-            Strategy& current_strategy = strategies_triplet[j];
-
+        for (auto& current_strategy : strategies_triplet){
             Choices prev_enemies_choice;
             if (!_storage.is_empty()){
                 prev_enemies_choice = _storage.get_last_enemies_choices(current_strategy);
             }
 
-            current_choices.push_back(strategies_triplet[j]->act(prev_enemies_choice));
+            current_choices.push_back(current_strategy->act(prev_enemies_choice));
         }
 
         _storage.append_choices(current_choices);

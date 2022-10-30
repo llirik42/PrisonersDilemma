@@ -33,7 +33,7 @@ int main(int arc, char** argv){
     Storage storage = Storage();
 
     StrategiesVector strategies_list;
-    for (const auto& title : args_parser.get_strategies_titles()){
+    for (const auto& title : args_parser.get_strategies_names()){
         Strategy new_strategy = factory.create_strategy(title);
 
         storage.register_strategy(new_strategy);
@@ -41,11 +41,8 @@ int main(int arc, char** argv){
         strategies_list.push_back(new_strategy);
     }
 
-    GameMode mode = args_parser.get_game_mode();
-
-    unsigned int steps_count = args_parser.get_steps_count();
-
-    Game game(strategies_list, matrix, steps_count, mode, storage);
+    Game game(strategies_list, matrix,args_parser.get_steps_count(),
+            args_parser.get_game_mode(),storage);
 
     game.start();
 
