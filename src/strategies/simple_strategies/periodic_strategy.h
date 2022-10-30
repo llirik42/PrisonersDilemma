@@ -5,7 +5,7 @@
 class RawPeriodicStrategy: public RawAbstractStrategy{
 public:
     RawPeriodicStrategy();
-    Step act() override;
+    Step act([[maybe_unused]] const Choices& enemies_choices) override;
 private:
     unsigned int _steps_count;
     unsigned int _period;

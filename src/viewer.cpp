@@ -133,8 +133,8 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
     view_list("Modes", modes, false);
 }
 
-void GameViewer::view_round(const Score& current_score, const Triplet<Step>& choices, const Score& delta_score){
-    view_container<const Triplet<Step>, Step>("", choices, false);
+void GameViewer::view_round(const Score& current_score, const Choices& choices, const Score& delta_score){
+    view_container<const Choices, Step>("", choices, false);
     view_container<const Score, int>("", delta_score, true);
     view_container<const Score, int>("", current_score, false);
 }

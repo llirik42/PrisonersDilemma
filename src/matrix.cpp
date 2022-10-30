@@ -149,8 +149,6 @@ Matrix::Matrix(const std::string& path){
     }
 
     _has_error = !input(ifstream);
-
-    ifstream.close();
 }
 
 bool Matrix::has_error() const{
@@ -205,8 +203,8 @@ const Row& Matrix::get_row(const std::string& row_code) const{
     return _rows[row_code];
 }
 
-const Row& Matrix::get_row(const Triplet<char>& row_code) const{
-    return get_row(std::string({row_code[0], row_code[1], row_code[2]}));
+const Row& Matrix::get_row(const Choices& choices) const{
+    return get_row(std::string({choices[0], choices[1], choices[2]}));
 }
 
 int Matrix::get_element(const std::string& row_code, unsigned int index_in_row) const{

@@ -22,6 +22,20 @@ StrategiesFactory::StrategiesFactory(){
         "Starts with cooperation and then alternates with period of 1",
         create<RawPeriodicStrategy>
     });
+
+    _info["Kind"] = StrategyInfo({
+        "Cooperates until somebody's betrayal",
+        create<RawKindStrategy>
+    });
+
+    _info["Strateg"] = StrategyInfo({
+        "Counts cooperation and betrayal in whole game. Cooperation > Betrayal - cooperates, else - betrays",
+        create<RawStrategStrategy>
+    });
+    _info["TitForTat"] = StrategyInfo({
+        "Counts cooperation and betrayal in previous round. Cooperation > Betrayal - cooperates, else - betrays",
+        create<RawTitForTatStrategy>
+    });
 }
 
 Strategy StrategiesFactory::create_strategy(const std::string& title) const{

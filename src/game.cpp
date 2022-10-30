@@ -54,16 +54,25 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
             }
         }
 
-        Triplet<Step> steps;
-        for (unsigned int j = 0; j < steps.size(); j++){
-            steps[j] = strategies_triplet[j]->act();
+        Choices current_choices;
+        for (unsigned int j = 0; j < 3; j++){
+            Strategy& current_strategy = strategies_triplet[j];
+
+            Choices prev_enemies_choice;
+            if (!_storage.is_empty()){
+                prev_enemies_choice = _storage.get_last_enemies_choices(current_strategy);
+            }
+
+            current_choices.push_back(strategies_triplet[j]->act(prev_enemies_choice));
         }
 
-        auto delta_score = _matrix.get_row(steps);
+        _storage.append_choices(current_choices);
+
+        auto delta_score = _matrix.get_row(current_choices);
         add_score(delta_score, score);
 
         if (_mode == DETAILED){
-            GameViewer::view_round(score, steps, delta_score);
+            GameViewer::view_round(score, current_choices, delta_score);
         }
     }
 
@@ -91,8 +100,19 @@ Score Game::tournament(){
     return score;
 }
 
-Game::Game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode):
-        _viewer(GameViewer(strategies.size())), _strategies(strategies), _matrix(matrix), _steps_count(steps_count), _mode(mode) {}
+Game::Game(StrategiesVector& strategies,
+           const Matrix& matrix,
+           unsigned int steps_count,
+           GameMode mode,
+           Storage& storage
+           ):
+        _viewer(GameViewer(strategies.size())),
+        _strategies(strategies),
+        _matrix(matrix),
+        _steps_count(steps_count),
+        _mode(mode),
+        _storage(storage)
+        {}
 
 void Game::start(){
     Score score;

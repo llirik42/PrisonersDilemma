@@ -2,6 +2,6 @@
 
 RawConstantStrategy::RawConstantStrategy():_step(COOPERATION_STEP) {}
 
-Step RawConstantStrategy::act(){
+Step RawConstantStrategy::act([[maybe_unused]] const Choices& enemies_choices){
     return _step;
 }

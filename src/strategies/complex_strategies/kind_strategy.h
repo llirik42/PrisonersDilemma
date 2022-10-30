@@ -2,7 +2,10 @@
 
 #include "../abstract_strategy.h"
 
-class RawTitForTatStrategy: public RawAbstractStrategy{
+class RawKindStrategy: public RawAbstractStrategy{
 public:
+    RawKindStrategy();
     Step act(const Choices& enemies_choices) override;
+private:
+    bool _was_betrayed;
 };
