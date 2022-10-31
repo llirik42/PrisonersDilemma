@@ -24,10 +24,16 @@ int main(int arc, char** argv){
         return 0;
     }
 
-    Matrix matrix(args_parser.get_matrix_file_path());
-    if (matrix.has_error()){
-        GameViewer::view_incorrect_matrix();
-        return 1;
+    Matrix matrix;
+    if (args_parser.is_matrix_default()){
+        matrix = create_default_matrix();
+    }
+    else{
+        matrix = Matrix(args_parser.get_matrix_file_path());
+        if (matrix.has_error()){
+            GameViewer::view_incorrect_matrix();
+            return 1;
+        }
     }
 
     Storage storage = Storage(args_parser.get_configs_path());

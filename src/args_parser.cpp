@@ -216,7 +216,7 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
             _parsing_status = HELP_IS_NOT_ONLY_ARG;
         }
 
-        _help = true;
+        _is_help = true;
         return;
     }
 
@@ -239,15 +239,18 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     if (_strategies_names.size() > 3 && !met_args["--mode"]){
         _game_mode = TOURNAMENT;
     }
+
+    if (met_args["--matrix"]){
+        _is_default_matrix = false;
+    }
 }
 
 ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& strategies_description){
     // default values
     _steps_count = 1;
     _game_mode = DETAILED;
-    _matrix_file_path = "../matrices/matrix_2";
-    _configs_path = "";
-    _help = false;
+    _is_help = false;
+    _is_default_matrix = true;
     _parsing_status = SUCCESS;
 
     const ParsingStatus validation_status = validate_args(arc, argv);
@@ -285,5 +288,9 @@ GameMode ArgsParser::get_game_mode() const{
 }
 
 bool ArgsParser::is_help_mode() const{
-    return _help;
+    return _is_help;
+}
+
+bool ArgsParser::is_matrix_default() const{
+    return _is_default_matrix;
 }

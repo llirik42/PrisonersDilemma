@@ -1,13 +1,19 @@
 #pragma once
 
 #include <map>
+#include <string>
 #include "utils.h"
 
 using Row = Score;
+using MatrixContent = std::map<std::string, Row>; // Rows of matrix
 
 class Matrix{
 public:
-    explicit Matrix(const std::string& path); // path to matrix-file
+    Matrix();
+
+    explicit Matrix(const std::string& path);
+
+    explicit Matrix(const MatrixContent& content);
 
     [[nodiscard]] bool has_error() const; // Have errors occurred during initialization
 
@@ -20,7 +26,7 @@ public:
     [[nodiscard]] int get_element(const std::string& row_code, unsigned int index_in_row) const; // get element of row
 private:
     bool _has_error;
-    mutable std::map<std::string, Row> _rows;
+    mutable MatrixContent _content;
 
     std::string match_row(const std::string& line); // matches values of line and returns code of row
 
@@ -28,3 +34,5 @@ private:
 
     [[nodiscard]] bool is_symmetric() const; // checks symmetry
 };
+
+Matrix create_default_matrix();

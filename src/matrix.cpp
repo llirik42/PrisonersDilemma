@@ -6,6 +6,36 @@ inline const unsigned int ELEMENTS_IN_ROW_COUNT = 3;
 
 using RowsMetTable = std::map<std::string, unsigned int>;
 
+bool check_matrix_content(const MatrixContent& content){
+    /*
+     * Returns false if content is incorrect, else - true
+    */
+
+    std::map<std::string, bool> met_rows_codes({
+        {"CCC", false},
+        {"CCD", false},
+        {"CDC", false},
+        {"CDD", false},
+        {"DCC", false},
+        {"DCD", false},
+        {"DDC", false},
+        {"DDD", false}
+    });
+
+    if (content.size() != met_rows_codes.size()){
+        return false;
+    }
+
+    for (const auto& kv: content){
+        met_rows_codes[kv.first] = true;
+    }
+
+    return std::all_of(met_rows_codes.begin(), met_rows_codes.end(), [](const auto& kv)
+    {
+        return kv.second;
+    });
+}
+
 std::string Matrix::match_row(const std::string& line){
     std::string line_copy = line;
 
@@ -26,12 +56,12 @@ std::string Matrix::match_row(const std::string& line){
         line_copy = smatch.suffix();
     }
 
-    _rows[current_row_code].resize(ELEMENTS_IN_ROW_COUNT);
+    _content[current_row_code].resize(ELEMENTS_IN_ROW_COUNT);
 
     // matching of numbers
     for (unsigned int i = 0; i < ELEMENTS_IN_ROW_COUNT; i++){
         regex_search(line_copy, smatch, numbers_regex);
-        _rows[current_row_code][i] = std::stoi(smatch[0]);
+        _content[current_row_code][i] = std::stoi(smatch[0]);
         line_copy = smatch.suffix();
     }
 
@@ -139,6 +169,8 @@ bool Matrix::is_symmetric() const{
     return condition_1 && condition_2 && condition_3 && condition_4 && condition_5 && condition_6;
 }
 
+Matrix::Matrix(): _has_error(true) {}
+
 Matrix::Matrix(const std::string& path){
     std::ifstream ifstream(path);
 
@@ -149,6 +181,15 @@ Matrix::Matrix(const std::string& path){
     }
 
     _has_error = !input(ifstream);
+}
+
+Matrix::Matrix(const MatrixContent& content){
+
+    _has_error = !check_matrix_content(content);
+
+    if (!_has_error){
+        _content = content;
+    }
 }
 
 bool Matrix::has_error() const{
@@ -200,7 +241,7 @@ bool Matrix::is_consistent() const{
 }
 
 const Row& Matrix::get_row(const std::string& row_code) const{
-    return _rows[row_code];
+    return _content[row_code];
 }
 
 const Row& Matrix::get_row(const Choices& choices) const{
@@ -209,4 +250,17 @@ const Row& Matrix::get_row(const Choices& choices) const{
 
 int Matrix::get_element(const std::string& row_code, unsigned int index_in_row) const{
     return get_row(row_code)[index_in_row];
+}
+
+Matrix create_default_matrix(){
+    return Matrix({
+        {"CCC", {7, 7, 7}},
+        {"CCD", {3, 3, 9}},
+        {"CDC", {3, 9, 3}},
+        {"DCC", {9, 3, 3}},
+        {"CDD", {0, 5, 5}},
+        {"DCD", {5, 0, 5}},
+        {"DDC", {5, 5, 0}},
+        {"DDD", {1, 1, 1}},
+    });
 }

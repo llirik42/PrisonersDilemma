@@ -35,6 +35,8 @@ public:
     [[nodiscard]] GameMode get_game_mode() const;
 
     [[nodiscard]] bool is_help_mode() const;
+
+    [[nodiscard]] bool is_matrix_default() const;
 private:
     std::vector<std::string> _strategies_names;
     unsigned int _steps_count;
@@ -42,7 +44,8 @@ private:
     std::string _configs_path;
     GameMode _game_mode;
     ParsingStatus _parsing_status;
-    bool _help;
+    bool _is_default_matrix;
+    bool _is_help;
 
     void parse(int arc, const char** argv, const StrategiesDescription& strategies_description);
 
