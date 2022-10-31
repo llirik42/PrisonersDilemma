@@ -124,7 +124,7 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
         {"matrix=MATRIX_PATH", {"Path to file of matrix", false}},
         {"steps=STEPS", {"Number of steps in game (in a round if mode=tournament)", false}},
         {"mode=detailed|fast|tournament", {R"(Game of mode. "detailed" can be interrupted by the "quit")", false}},
-        {"strategies=[S1,S2,S3,...]", {"List of strategies in the game (at least 3). Strategies must go with no spaces", true}},
+        {"strategies=[S1,S2,S3,...]", {"List of strategies in the game (at least 3). Strategies must go with no spaces and repeats", true}},
         {"configs=CONFIGS_PATH", {"Directory with files of simulator" , false}},
         });
 
@@ -167,15 +167,16 @@ void GameViewer::view_round(const Score& current_score, const Choices& choices, 
 
 void GameViewer::view_parsing_error(ParsingStatus status){
     static std::map<ParsingStatus, std::string> status_to_message({
-        {TOO_FEW_ARGS, "Too few args"},
-        {HELP_IS_NOT_ONLY_ARG, "--help is not the only arg"},
+        {TOO_FEW_ARG,                            "Too few args"},
+        {HELP_IS_NOT_ONLY_ARG,                   "--help is not the only arg"},
         {TOO_MANY_STRATEGIES_FOR_NON_TOURNAMENT, "Too many strategies for non-tournament mode"},
-        {INCORRECT_ARGS, "Incorrect args"},
-        {REPEATED_ARGS, "Some args are repeated"},
-        {UNKNOWN_STRATEGIES, "Unknown strategies"},
-        {NO_STRATEGIES, "At least 3 strategies must be chosen"},
-        {INCORRECT_CONFIGS_PATH, "Incorrect path of configs"},
-        {OPENING_CONFIGS_DIRECTORY_ERROR, "Error occurred while opening configs directory"},
+        {INCORRECT_ARGS,                         "Incorrect args"},
+        {REPEATED_ARGS,                          "Some args are repeated"},
+        {UNKNOWN_STRATEGIES,                     "Unknown strategies"},
+        {NO_STRATEGIES,                          "At least 3 strategies must be chosen"},
+        {INCORRECT_CONFIGS_PATH,                 "Incorrect path of configs"},
+        {OPENING_CONFIGS_DIRECTORY_ERROR,        "Error occurred while opening configs directory"},
+        {REPEATED_STRATEGIES, "Some strategies are repeated"}
         });
 
     std::cout << status_to_message[status] << ". See --help";

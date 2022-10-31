@@ -62,15 +62,15 @@ ParsingStatus validate_count_of_met_args(const ArgsParser::MetArgsMap& met_args)
         }
     }
 
-    return met_some_arg ? SUCCESS : TOO_FEW_ARGS;
+    return met_some_arg ? SUCCESS : TOO_FEW_ARG;
 }
 
 ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDescription& description){
-    for (const auto& name: parser._strategies_names){
+    for (unsigned int i = 0; i < parser._strategies_names.size(); ++i){
         bool met_unknown_strategy = false;
 
         for (const auto& kv : description){
-            if (kv.first == name){
+            if (kv.first == parser._strategies_names[i]){
                 met_unknown_strategy = true;
                 break;
             }
@@ -78,6 +78,12 @@ ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDesc
 
         if (!met_unknown_strategy){
             return UNKNOWN_STRATEGIES;
+        }
+
+        for (unsigned int j = 0; j < i; ++j){
+            if (parser._strategies_names[i] == parser._strategies_names[j]){
+                return REPEATED_STRATEGIES;
+            }
         }
     }
 
