@@ -15,6 +15,7 @@ enum ParsingStatus{
     UNKNOWN_STRATEGIES,
     NO_STRATEGIES,
     INCORRECT_CONFIGS_PATH,
+    OPENING_CONFIGS_DIRECTORY_ERROR
 };
 
 class ArgsParser{

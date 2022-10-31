@@ -1,22 +1,16 @@
 #include <regex>
-#include <fstream>
-#include <cstdio>
+#include <filesystem>
 #include "args_parser.h"
 
-bool validate_directory(const std::string& path){
-    std::string full_path = path + "/~tmp";
+ParsingStatus validate_directory(const std::string& path){
+    const std::filesystem::path file_system_path(path);
 
-    if (!path.empty()){
-        std::ofstream ofstream(full_path);
-        if (!ofstream.is_open()){
-            return false;
-        }
-        ofstream.close();
+    try{
+        return std::filesystem::is_directory(path) ? SUCCESS : INCORRECT_CONFIGS_PATH;
     }
-
-    remove(full_path.c_str());
-
-    return true;
+    catch(...){
+        return OPENING_CONFIGS_DIRECTORY_ERROR;
+    }
 }
 
 inline bool points_to_end(const char* const pointer){
@@ -131,7 +125,6 @@ void extract_matrix_file_path(const char* arg, ArgsParser& parser){
 
 void extract_configs_path(const char* arg, ArgsParser& parser){
     parser._configs_path = extract_string_arg_value(arg);
-    parser._configs_path.erase(parser._configs_path.size() - 1); // remove '/' from configs_path
 }
 
 void extract_game_mode(const char* arg, ArgsParser& parser){
@@ -171,9 +164,9 @@ void extract_strategies_names(const char* arg, ArgsParser& parser){
 void extract_args(int arc, const char** argv, ArgsParser::MetArgsMap& met_args, ArgsParser& parser){
     std::map<std::string,void(*)(const char*, ArgsParser&)> extracting_function({
         {"--strategies", extract_strategies_names},
-        {"--mode",       extract_game_mode},
-        {"--steps",      extract_steps_count},
-        {"--matrix",     extract_matrix_file_path},
+        {"--mode", extract_game_mode},
+        {"--steps", extract_steps_count},
+        {"--matrix", extract_matrix_file_path},
         {"--configs", extract_configs_path}
     });
 
@@ -231,9 +224,13 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
         return;
     }
 
-    if (!_configs_path.empty() && !validate_directory(_configs_path)){
-        _parsing_status = INCORRECT_CONFIGS_PATH;
-        return;
+    if (!_configs_path.empty()){
+        ParsingStatus validating_directory_status = validate_directory(_configs_path);
+
+        if (validating_directory_status != SUCCESS){
+            _parsing_status = validating_directory_status;
+            return;
+        }
     }
 
     if (_strategies_names.size() > 3 && !met_args["--mode"]){

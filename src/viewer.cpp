@@ -125,7 +125,7 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
         {"steps=STEPS", {"Number of steps in game (in a round if mode=tournament)", false}},
         {"mode=detailed|fast|tournament", {R"(Game of mode. "detailed" can be interrupted by the "quit")", false}},
         {"strategies=[S1,S2,S3,...]", {"List of strategies in the game (at least 3). Strategies must go with no spaces", true}},
-        {"configs=CONFIGS_PATH", {"Directory with files of simulator. You must write it with / in the end" , false}},
+        {"configs=CONFIGS_PATH", {"Directory with files of simulator" , false}},
         });
 
     ListWithDescription args_description;
@@ -175,6 +175,7 @@ void GameViewer::view_parsing_error(ParsingStatus status){
         {UNKNOWN_STRATEGIES, "Unknown strategies"},
         {NO_STRATEGIES, "At least 3 strategies must be chosen"},
         {INCORRECT_CONFIGS_PATH, "Incorrect path of configs"},
+        {OPENING_CONFIGS_DIRECTORY_ERROR, "Error occurred while opening configs directory"},
         });
 
     std::cout << status_to_message[status] << ". See --help";
