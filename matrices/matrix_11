@@ -1,3 +1,5 @@
+// Unsupported comment section (/* */) is considered as error
+
 /*
     section1
 */

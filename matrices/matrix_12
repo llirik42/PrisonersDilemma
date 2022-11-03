@@ -1,3 +1,5 @@
+// Unsupported comment (/) is considered as error
+
 / /comment 1
 C C C 8 8 8
 C C D 6 6 10

@@ -1,3 +1,5 @@
+// Second inequality is wrong (d0 > c0 > d1 > c1 > d2 > c2)
+
 C C C -2 -2 -2
 C C D -4 -4 -10
 C D C -4 -10 -4

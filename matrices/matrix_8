@@ -1,3 +1,5 @@
+// Matrix is not symmetric (in some especial way)
+
 C C C 2 2 2
 C C D -4 -4 3
 C D C -4 3 -4

@@ -1,3 +1,5 @@
+// Correct matrix with only positive numbers
+
 C C C 8 8 8
 C C D 6 6 10
 C D C 6 10 6

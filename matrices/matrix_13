@@ -1,3 +1,5 @@
+// Incorrect number of rows (9 instead of 8) though row was duplicated
+
 C C C 8 8 8
 C C C 8 8 8
 C C D 6 6 10

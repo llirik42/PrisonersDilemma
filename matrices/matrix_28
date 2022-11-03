@@ -1,3 +1,5 @@
+// Incorrect number (07) in first row (it's supposed that numbers must be "0" or non-zero)
+
 C C C 07 07 07
 C C D 3 3 9
 C D C 3 9 3

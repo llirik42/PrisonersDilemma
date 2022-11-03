@@ -1,3 +1,5 @@
+// Correct matrix with only positive numbers and unusual order of rows
+
 D D D 5 5 5
 D C D 7 4 7
 D C C 10 6 6

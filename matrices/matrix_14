@@ -1,3 +1,5 @@
+// Incorrect number of rows (7 instead of 8)
+
 C C C 8 8 8
 C C D 6 6 10
 C D C 6 10 6
