@@ -66,7 +66,7 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
 
         _storage.append_choices(current_choices);
 
-        auto delta_score = _matrix.get_row(current_choices);
+        auto delta_score = _matrix[current_choices];
         add_score(delta_score, score);
 
         if (_mode == DETAILED){

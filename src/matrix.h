@@ -9,11 +9,9 @@ using MatrixContent = std::map<std::string, Row>; // Rows of matrix
 
 class Matrix{
 public:
-    Matrix();
+    Matrix(); // Creates default matrix
 
     explicit Matrix(const std::string& path);
-
-    explicit Matrix(const MatrixContent& content);
 
     [[nodiscard]] bool has_error() const; // Have errors occurred during initialization
 
@@ -21,7 +19,7 @@ public:
 
     [[nodiscard]] const Row& get_row(const std::string& row_code) const; // receives "CCC", "CCD" ...
 
-    [[nodiscard]] const Row& get_row(const Choices& choices) const; // receives (C, C, C), ...
+    [[nodiscard]] const Row& operator[] (const Choices& choices) const;
 
     [[nodiscard]] int get_element(const std::string& row_code, unsigned int index_in_row) const; // get element of row
 private:
@@ -34,5 +32,3 @@ private:
 
     [[nodiscard]] bool is_symmetric() const; // checks symmetry
 };
-
-Matrix create_default_matrix();

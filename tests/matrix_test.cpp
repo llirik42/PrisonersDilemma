@@ -302,3 +302,20 @@ TEST(MatrixTest, test29){
 
     EXPECT_TRUE(matrix.has_error());
 }
+
+// Default matrix
+TEST(MatrixTest, test30){
+    const Matrix matrix = Matrix();
+
+    EXPECT_FALSE(matrix.has_error());
+    EXPECT_TRUE(matrix.is_consistent());
+
+    EXPECT_EQ(matrix.get_row("CCC"), Row({7, 7, 7}));
+    EXPECT_EQ(matrix.get_row("CCD"), Row({3, 3, 9}));
+    EXPECT_EQ(matrix.get_row("CDC"), Row({3, 9, 3}));
+    EXPECT_EQ(matrix.get_row("DCC"), Row({9, 3, 3}));
+    EXPECT_EQ(matrix.get_row("CDD"), Row({0, 5, 5}));
+    EXPECT_EQ(matrix.get_row("DCD"), Row({5, 0, 5}));
+    EXPECT_EQ(matrix.get_row("DDC"), Row({5, 5, 0}));
+    EXPECT_EQ(matrix.get_row("DDD"), Row({1, 1, 1}));
+}
