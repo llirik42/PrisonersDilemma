@@ -61,14 +61,14 @@ bool Matrix::input(std::ifstream& ifstream){
     static const std::regex row_regex(R"(\s*([CD]\s+){3}((0|(-?[1-9]\d*))\s+){2}(0|(-?[1-9]\d*))(\s*|\s+//.*))");
 
     std::map<Choices, unsigned int> rows_met_table({
-        {{C, C, C}, 0},
-        {{C, C, D}, 0},
-        {{C, D, C}, 0},
-        {{C, D, D}, 0},
-        {{D, C, C}, 0},
-        {{D, C, D}, 0},
-        {{D, D, C}, 0},
-        {{D, D, D}, 0},
+        {CCC, 0},
+        {CCD, 0},
+        {CDC, 0},
+        {CDD, 0},
+        {DCC, 0},
+        {DCD, 0},
+        {DDC, 0},
+        {DDD, 0},
         });
 
     while(!ifstream.eof()){
