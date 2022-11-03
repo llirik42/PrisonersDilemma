@@ -4,25 +4,29 @@
 
 inline const unsigned int ELEMENTS_IN_ROW_COUNT = 3;
 
-using RowsMetTable = std::map<std::string, unsigned int>;
+using RowsMetTable = std::map<Choices, unsigned int>;
 
-std::string Matrix::match_row(const std::string& line){
+using namespace AllChoices;
+
+Choices Matrix::match_row(const std::string& line){
     std::string line_copy = line;
 
+    static const std::string pattern = {'[', C, D, ']'};
+
     // regex for matching letters in row of matrix
-    static const std::regex letters_regex(R"([CD])");
+    static const std::regex letters_regex(pattern);
 
     // regex for matching numbers in row of matrix
     static const std::regex numbers_regex(R"(0|(-?[1-9]\d*))");
 
-    std::string current_row_code; // code of current_row (like "CCC", "CDC" or anything else)
+    Choices current_row_code; // code of current row (like {C, C, C}, {C, D, C} or anything else)
 
     std::smatch smatch; // matches
 
     // matching of row-code
     for (unsigned int i = 0; i < ELEMENTS_IN_ROW_COUNT; i++){
         regex_search(line_copy, smatch, letters_regex);
-        current_row_code.append(smatch[0]);
+        current_row_code.push_back(smatch[0].str()[0]);
         line_copy = smatch.suffix();
     }
 
@@ -56,15 +60,15 @@ bool Matrix::input(std::ifstream& ifstream){
     // line with row of matrix
     static const std::regex row_regex(R"(\s*([CD]\s+){3}((0|(-?[1-9]\d*))\s+){2}(0|(-?[1-9]\d*))(\s*|\s+//.*))");
 
-    std::map<std::string, unsigned int> rows_met_table({
-        {"CCC", 0},
-        {"CCD", 0},
-        {"CDC", 0},
-        {"CDD", 0},
-        {"DCC", 0},
-        {"DCD", 0},
-        {"DDC", 0},
-        {"DDD", 0}
+    std::map<Choices, unsigned int> rows_met_table({
+        {{C, C, C}, 0},
+        {{C, C, D}, 0},
+        {{C, D, C}, 0},
+        {{C, D, D}, 0},
+        {{D, C, C}, 0},
+        {{D, C, D}, 0},
+        {{D, D, C}, 0},
+        {{D, D, D}, 0},
         });
 
     while(!ifstream.eof()){
@@ -76,7 +80,7 @@ bool Matrix::input(std::ifstream& ifstream){
         }
 
         if (std::regex_match(current_line.data(), row_regex)){
-            std::string current_row_code = match_row(current_line);
+            Choices current_row_code = match_row(current_line);
 
             rows_met_table[current_row_code]++;
 
@@ -95,45 +99,45 @@ bool Matrix::is_symmetric() const{
     */
 
     // values of "CCC" row
-    const int c01 = get_element("CCC", 0);
-    const int c02 = get_element("CCC", 1);
-    const int c03 = get_element("CCC", 2);
+    const int c01 = get_element(CCC, 0);
+    const int c02 = get_element(CCC, 1);
+    const int c03 = get_element(CCC, 2);
     const bool condition_1 = c01 == c02 && c01 == c03;
 
     // values of C`s where 2 C's and 1 D
-    const int c11 = get_element("CCD", 0);
-    const int c12 = get_element("CCD", 1);
-    const int c13 = get_element("CDC", 0);
-    const int c14 = get_element("CDC", 2);
-    const int c15 = get_element("DCC", 1);
-    const int c16 = get_element("DCC", 2);
+    const int c11 = get_element(CCD, 0);
+    const int c12 = get_element(CCD, 1);
+    const int c13 = get_element(CDC, 0);
+    const int c14 = get_element(CDC, 2);
+    const int c15 = get_element(DCC, 1);
+    const int c16 = get_element(DCC, 2);
     const bool condition_2 = c11 == c12 && c11 == c13 && c11 == c14 && c11 == c15 && c11 == c16;
 
     // values of C`s where 1 C and 2 D`s
-    const int c21 = get_element("CDD", 0);
-    const int c22 = get_element("DCD", 1);
-    const int c23 = get_element("DDC", 2);
+    const int c21 = get_element(CDD, 0);
+    const int c22 = get_element(DCD, 1);
+    const int c23 = get_element(DDC, 2);
     const bool condition_3 = c21 == c22 && c21 == c23;
 
     // values of D`s where 1 D and 2 C`s
-    const int d01 = get_element("CCD", 2);
-    const int d02 = get_element("CDC", 1);
-    const int d03 = get_element("DCC", 0);
+    const int d01 = get_element(CCD, 2);
+    const int d02 = get_element(CDC, 1);
+    const int d03 = get_element(DCC, 0);
     const bool condition_4 = d01 == d02 && d01 == d03;
 
     // values of D`s where 2 D's and 1 C
-    const int d11 = get_element("CDD", 1);
-    const int d12 = get_element("CDD", 2);
-    const int d13 = get_element("DCD", 0);
-    const int d14 = get_element("DCD", 2);
-    const int d15 = get_element("DDC", 0);
-    const int d16 = get_element("DDC", 1);
+    const int d11 = get_element(CDD, 1);
+    const int d12 = get_element(CDD, 2);
+    const int d13 = get_element(DCD, 0);
+    const int d14 = get_element(DCD, 2);
+    const int d15 = get_element(DDC, 0);
+    const int d16 = get_element(DDC, 1);
     const bool condition_5 = d11 == d12 && d11 == d13 && d11 == d14 && d11 == d15 && d11 == d16;
 
     // values of "DDD" row
-    const int d21 = get_element("DDD", 0);
-    const int d22 = get_element("DDD", 1);
-    const int d23 = get_element("DDD", 2);
+    const int d21 = get_element(DDD, 0);
+    const int d22 = get_element(DDD, 1);
+    const int d23 = get_element(DDD, 2);
     const bool condition_6 = d21 == d22 && d21 == d23;
 
     return condition_1 && condition_2 && condition_3 && condition_4 && condition_5 && condition_6;
@@ -142,14 +146,14 @@ bool Matrix::is_symmetric() const{
 Matrix::Matrix():
 _has_error(false),
 _content({
-    {"CCC", {7, 7, 7}},
-    {"CCD", {3, 3, 9}},
-    {"CDC", {3, 9, 3}},
-    {"DCC", {9, 3, 3}},
-    {"CDD", {0, 5, 5}},
-    {"DCD", {5, 0, 5}},
-    {"DDC", {5, 5, 0}},
-    {"DDD", {1, 1, 1}},
+    {CCC, {7, 7, 7}},
+    {CCD, {3, 3, 9}},
+    {CDC, {3, 9, 3}},
+    {DCC, {9, 3, 3}},
+    {CDD, {0, 5, 5}},
+    {DCD, {5, 0, 5}},
+    {DDC, {5, 5, 0}},
+    {DDD, {1, 1, 1}},
 })
 {}
 
@@ -196,13 +200,13 @@ bool Matrix::is_consistent() const{
      * We assume that matrix is symmetric in this step.
      */
 
-    const int c0 = get_element("CCC", 0);
-    const int c1 = get_element("CCD", 0);
-    const int c2 = get_element("CDD", 0);
+    const int c0 = get_element(CCC, 0);
+    const int c1 = get_element(CCD, 0);
+    const int c2 = get_element(CDD, 0);
 
-    const int d0 = get_element("CCD", 2);
-    const int d1 = get_element("DCD", 0);
-    const int d2 = get_element("DDD", 0);
+    const int d0 = get_element(CCD, 2);
+    const int d1 = get_element(DCD, 0);
+    const int d2 = get_element(DDD, 0);
 
     // This tells that cooperation is more beneficial in a long game
     const bool inequality_1 = (3 * c0 > 2 * c1 + d0);
@@ -213,14 +217,10 @@ bool Matrix::is_consistent() const{
     return inequality_1 && inequality_2;
 }
 
-const Row& Matrix::get_row(const std::string& row_code) const{
-    return _content[row_code];
-}
-
 const Row& Matrix::operator[](const Choices& choices) const{
-    return get_row(std::string({choices[0], choices[1], choices[2]}));
+    return _content[choices];
 }
 
-int Matrix::get_element(const std::string& row_code, unsigned int index_in_row) const{
-    return get_row(row_code)[index_in_row];
+int Matrix::get_element(const Choices& row_code, unsigned int index_in_row) const{
+    return _content[row_code][index_in_row];
 }

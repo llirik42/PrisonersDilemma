@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "../src/matrix.h"
 
+using namespace AllChoices;
+
 // incorrect path
 TEST(MatrixTest, test0){
     const char* path = "<incorrect path>";
@@ -25,14 +27,14 @@ TEST(MatrixTest, test2){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({7, 7, 7}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({3, 3, 9}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({3, 9, 3}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({9, 3, 3}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({0, 5, 5}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({5, 0, 5}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({5, 5, 0}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({1, 1, 1}));
+    EXPECT_EQ(matrix[CCC], Row({7, 7, 7}));
+    EXPECT_EQ(matrix[CCD], Row({3, 3, 9}));
+    EXPECT_EQ(matrix[CDC], Row({3, 9, 3}));
+    EXPECT_EQ(matrix[DCC], Row({9, 3, 3}));
+    EXPECT_EQ(matrix[CDD], Row({0, 5, 5}));
+    EXPECT_EQ(matrix[DCD], Row({5, 0, 5}));
+    EXPECT_EQ(matrix[DDC], Row({5, 5, 0}));
+    EXPECT_EQ(matrix[DDD], Row({1, 1, 1}));
 }
 
 // correct matrix with only positive numbers
@@ -43,14 +45,14 @@ TEST(MatrixTest, test3){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({8, 8, 8}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({6, 6, 10}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({6, 10, 6}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({10, 6, 6}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({4, 7, 7}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({7, 4, 7}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({7, 7, 4}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({5, 5, 5}));
+    EXPECT_EQ(matrix[CCC], Row({8, 8, 8}));
+    EXPECT_EQ(matrix[CCD], Row({6, 6, 10}));
+    EXPECT_EQ(matrix[CDC], Row({6, 10, 6}));
+    EXPECT_EQ(matrix[DCC], Row({10, 6, 6}));
+    EXPECT_EQ(matrix[CDD], Row({4, 7, 7}));
+    EXPECT_EQ(matrix[DCD], Row({7, 4, 7}));
+    EXPECT_EQ(matrix[DDC], Row({7, 7, 4}));
+    EXPECT_EQ(matrix[DDD], Row({5, 5, 5}));
 }
 
 // correct matrix with only negative numbers
@@ -61,14 +63,14 @@ TEST(MatrixTest, test4){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({-2, -2, -2}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({-4, -4, -1}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({-4, -1, -4}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({-1, -4, -4}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({-6, -3, -3}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({-3, -6, -3}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({-3, -3, -6}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({-5, -5, -5}));
+    EXPECT_EQ(matrix[CCC], Row({-2, -2, -2}));
+    EXPECT_EQ(matrix[CCD], Row({-4, -4, -1}));
+    EXPECT_EQ(matrix[CDC], Row({-4, -1, -4}));
+    EXPECT_EQ(matrix[DCC], Row({-1, -4, -4}));
+    EXPECT_EQ(matrix[CDD], Row({-6, -3, -3}));
+    EXPECT_EQ(matrix[DCD], Row({-3, -6, -3}));
+    EXPECT_EQ(matrix[DDC], Row({-3, -3, -6}));
+    EXPECT_EQ(matrix[DDD], Row({-5, -5, -5}));
 }
 
 // correct matrix with positive and negative numbers
@@ -79,14 +81,14 @@ TEST(MatrixTest, test5){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({2, 2, 2}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({-4, -4, 3}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({-4, 3, -4}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({3, -4, -4}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({-6, 0, 0}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({0, -6, 0}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({0, 0, -6}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({-5, -5, -5}));
+    EXPECT_EQ(matrix[CCC], Row({2, 2, 2}));
+    EXPECT_EQ(matrix[CCD], Row({-4, -4, 3}));
+    EXPECT_EQ(matrix[CDC], Row({-4, 3, -4}));
+    EXPECT_EQ(matrix[DCC], Row({3, -4, -4}));
+    EXPECT_EQ(matrix[CDD], Row({-6, 0, 0}));
+    EXPECT_EQ(matrix[DCD], Row({0, -6, 0}));
+    EXPECT_EQ(matrix[DDC], Row({0, 0, -6}));
+    EXPECT_EQ(matrix[DDD], Row({-5, -5, -5}));
 }
 
 // first inequality is wrong (3 * c0 > 2 * c1 + d0)
@@ -124,14 +126,14 @@ TEST(MatrixTest, test9){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({8, 8, 8}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({6, 6, 10}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({6, 10, 6}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({10, 6, 6}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({4, 7, 7}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({7, 4, 7}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({7, 7, 4}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({5, 5, 5}));
+    EXPECT_EQ(matrix[CCC], Row({8, 8, 8}));
+    EXPECT_EQ(matrix[CCD], Row({6, 6, 10}));
+    EXPECT_EQ(matrix[CDC], Row({6, 10, 6}));
+    EXPECT_EQ(matrix[DCC], Row({10, 6, 6}));
+    EXPECT_EQ(matrix[CDD], Row({4, 7, 7}));
+    EXPECT_EQ(matrix[DCD], Row({7, 4, 7}));
+    EXPECT_EQ(matrix[DDC], Row({7, 7, 4}));
+    EXPECT_EQ(matrix[DDD], Row({5, 5, 5}));
 }
 
 // correct matrix with spaces, empty lines, negative numbers and comments
@@ -142,14 +144,14 @@ TEST(MatrixTest, test10){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({2, 2, 2}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({-4, -4, 3}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({-4, 3, -4}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({3, -4, -4}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({-6, 0, 0}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({0, -6, 0}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({0, 0, -6}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({-5, -5, -5}));
+    EXPECT_EQ(matrix[CCC], Row({2, 2, 2}));
+    EXPECT_EQ(matrix[CCD], Row({-4, -4, 3}));
+    EXPECT_EQ(matrix[CDC], Row({-4, 3, -4}));
+    EXPECT_EQ(matrix[DCC], Row({3, -4, -4}));
+    EXPECT_EQ(matrix[CDD], Row({-6, 0, 0}));
+    EXPECT_EQ(matrix[DCD], Row({0, -6, 0}));
+    EXPECT_EQ(matrix[DDC], Row({0, 0, -6}));
+    EXPECT_EQ(matrix[DDD], Row({-5, -5, -5}));
 }
 
 // unsupported comment section (/* */) is considered as error
@@ -310,12 +312,12 @@ TEST(MatrixTest, test30){
     EXPECT_FALSE(matrix.has_error());
     EXPECT_TRUE(matrix.is_consistent());
 
-    EXPECT_EQ(matrix.get_row("CCC"), Row({7, 7, 7}));
-    EXPECT_EQ(matrix.get_row("CCD"), Row({3, 3, 9}));
-    EXPECT_EQ(matrix.get_row("CDC"), Row({3, 9, 3}));
-    EXPECT_EQ(matrix.get_row("DCC"), Row({9, 3, 3}));
-    EXPECT_EQ(matrix.get_row("CDD"), Row({0, 5, 5}));
-    EXPECT_EQ(matrix.get_row("DCD"), Row({5, 0, 5}));
-    EXPECT_EQ(matrix.get_row("DDC"), Row({5, 5, 0}));
-    EXPECT_EQ(matrix.get_row("DDD"), Row({1, 1, 1}));
+    EXPECT_EQ(matrix[CCC], Row({7, 7, 7}));
+    EXPECT_EQ(matrix[CCD], Row({3, 3, 9}));
+    EXPECT_EQ(matrix[CDC], Row({3, 9, 3}));
+    EXPECT_EQ(matrix[DCC], Row({9, 3, 3}));
+    EXPECT_EQ(matrix[CDD], Row({0, 5, 5}));
+    EXPECT_EQ(matrix[DCD], Row({5, 0, 5}));
+    EXPECT_EQ(matrix[DDC], Row({5, 5, 0}));
+    EXPECT_EQ(matrix[DDD], Row({1, 1, 1}));
 }

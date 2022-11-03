@@ -1,11 +1,24 @@
 #pragma once
 
 #include <map>
-#include <string>
 #include "utils.h"
 
 using Row = Score;
-using MatrixContent = std::map<std::string, Row>; // Rows of matrix
+using MatrixContent = std::map<Choices, Row>; // Rows of matrix
+
+namespace AllChoices{
+    inline const Step C = COOPERATION_STEP;
+    inline const Step D = DEFECTION_STEP;
+
+    inline const Choices CCC = {C, C, C};
+    inline const Choices CCD = {C, C, D};
+    inline const Choices CDC = {C, D, C};
+    inline const Choices CDD = {C, D, D};
+    inline const Choices DCC = {D, C, C};
+    inline const Choices DCD = {D, C, D};
+    inline const Choices DDC = {D, D, C};
+    inline const Choices DDD = {D, D, D};
+}
 
 class Matrix{
 public:
@@ -17,16 +30,14 @@ public:
 
     [[nodiscard]] bool is_consistent() const; // Checks inequalities and symmetry
 
-    [[nodiscard]] const Row& get_row(const std::string& row_code) const; // receives "CCC", "CCD" ...
-
     [[nodiscard]] const Row& operator[] (const Choices& choices) const;
 
-    [[nodiscard]] int get_element(const std::string& row_code, unsigned int index_in_row) const; // get element of row
+    [[nodiscard]] int get_element(const Choices& row_code, unsigned int index_in_row) const; // get element of row
 private:
     bool _has_error;
     mutable MatrixContent _content;
 
-    std::string match_row(const std::string& line); // matches values of line and returns code of row
+    Choices match_row(const std::string& line); // matches values of line and returns code of row
 
     bool input(std::ifstream& ifstream); // inputs matrix from stream
 
