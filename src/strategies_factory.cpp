@@ -7,9 +7,14 @@ Strategy create(){
 }
 
 StrategiesFactory::StrategiesFactory(){
-    _info["Constant"] = StrategyInfo({
+    _info["Cooperator"] = StrategyInfo({
         "Always cooperates",
-        create<RawConstantStrategy>
+        create<RawCooperatorStrategy>
+    });
+
+    _info["Defector"] = StrategyInfo({
+        "Always defects",
+        create<RawDefectorStrategy>
     });
 
     _info["Random"] = StrategyInfo({
@@ -32,13 +37,13 @@ StrategiesFactory::StrategiesFactory(){
         create<RawStrategStrategy>
     });
     _info["TitForTat"] = StrategyInfo({
-        "Counts cooperation and betrayal in previous round. Cooperation > Betrayal - cooperates, else - betrays",
+        "If Cooperation > Betrayal in previous round - cooperates, else - betrays. In first round cooperates",
         create<RawTitForTatStrategy>
     });
 }
 
 Strategy StrategiesFactory::create_strategy(const std::string& title) const{
-    return _info[title].create();
+    return _info.at(title).create();
 }
 
 std::map<std::string, std::string> StrategiesFactory::get_strategies_description() const{

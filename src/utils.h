@@ -16,6 +16,8 @@ using StrategiesIndexes = Triplet<unsigned int>;
 
 using StrategiesDescription = std::map<std::string, std::string>;
 
+using StrategiesNames = std::vector<std::string>;
+
 using History = std::vector<Choices>;
 
 inline const Step COOPERATION_STEP = 'C';

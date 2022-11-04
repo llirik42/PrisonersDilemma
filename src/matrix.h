@@ -35,7 +35,7 @@ public:
     [[nodiscard]] int get_element(const Choices& row_code, unsigned int index_in_row) const; // get element of row
 private:
     bool _has_error;
-    mutable MatrixContent _content;
+    MatrixContent _content;
 
     Choices match_row(const std::string& line); // matches values of line and returns code of row
 

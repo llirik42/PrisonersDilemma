@@ -7,7 +7,7 @@
 class GameViewer{
 public:
     GameViewer();
-    explicit GameViewer(unsigned int players_count);
+    explicit GameViewer(const StrategiesNames& strategies_names);
 
     void view_round(const Score& current_score, const Score& delta_score, StrategiesIndexes indexes);
 
@@ -18,6 +18,6 @@ public:
     static void view_help_command(StrategiesDescription& strategies_description);
     static void view_round(const Score& current_score, const Choices& choices, const Score& delta_score);
 private:
-    const unsigned int _players_count;
+    unsigned int _players_count;
     unsigned int _rounds_counter;
 };

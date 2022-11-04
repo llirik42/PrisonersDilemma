@@ -36,7 +36,7 @@ public:
 
     ~Storage() override;
 private:
-    mutable std::map<Strategy, unsigned int> _ids;
+    std::map<Strategy, unsigned int> _ids;
     History _history_of_strateg; // History for StrategStrategy
     unsigned int _id_of_strateg;
     std::string _configs_path;

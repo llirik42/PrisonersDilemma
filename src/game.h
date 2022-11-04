@@ -12,7 +12,7 @@ using StrategiesVector = std::vector<Strategy>;
 
 class Game{
 public:
-    Game(StrategiesVector& strategies, const Matrix& matrix, unsigned int steps_count, GameMode mode,
+    Game(StrategiesVector& strategies, const StrategiesNames& strategies_names, const Matrix& matrix, unsigned int steps_count, GameMode mode,
          Storage& storage);
 
     void start();

@@ -73,7 +73,7 @@ Choices Storage::get_last_enemies_choices(unsigned int id) const{
 }
 
 Choices Storage::get_last_enemies_choices(const Strategy& strategy) const{
-    return get_last_enemies_choices(_ids[strategy]);
+    return get_last_enemies_choices(_ids.at(strategy));
 }
 
 History Storage::get_previous_games_history() const{

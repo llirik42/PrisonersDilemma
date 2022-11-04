@@ -1,4 +1,3 @@
-#include <random>
 #include "tit_for_tat_strategy.h"
 
 Step RawTitForTatStrategy::act(const Choices& enemies_choices){
@@ -14,13 +13,5 @@ Step RawTitForTatStrategy::act(const Choices& enemies_choices){
         defection_count += (choice == DEFECTION_STEP);
     }
 
-    if (cooperation_count > defection_count){
-        return COOPERATION_STEP;
-    }
-
-    if (defection_count > cooperation_count){
-        return DEFECTION_STEP;
-    }
-
-    return (rand() % 2) ? COOPERATION_STEP : DEFECTION_STEP;
+    return cooperation_count > defection_count ? COOPERATION_STEP : DEFECTION_STEP;
 }

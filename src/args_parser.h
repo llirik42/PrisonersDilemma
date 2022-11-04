@@ -26,7 +26,7 @@ public:
 
     [[nodiscard]] ParsingStatus get_parsing_status() const;
 
-    [[nodiscard]] const std::vector<std::string>& get_strategies_names() const;
+    [[nodiscard]] const StrategiesNames& get_strategies_names() const;
 
     [[nodiscard]] unsigned int get_steps_count() const;
 
@@ -40,7 +40,7 @@ public:
 
     [[nodiscard]] bool is_matrix_default() const;
 private:
-    std::vector<std::string> _strategies_names;
+    StrategiesNames _strategies_names;
     unsigned int _steps_count;
     std::string _matrix_file_path;
     std::string _configs_path;

@@ -1,7 +1,9 @@
-#include "constant_strategy.h"
+#include "constant_strategies.h"
 
-RawConstantStrategy::RawConstantStrategy():_step(DEFECTION_STEP) {}
+Step RawCooperatorStrategy::act([[maybe_unused]] const Choices& enemies_choices){
+    return COOPERATION_STEP;
+}
 
-Step RawConstantStrategy::act([[maybe_unused]] const Choices& enemies_choices){
-    return _step;
+Step RawDefectorStrategy::act([[maybe_unused]] const Choices& enemies_choices){
+    return DEFECTION_STEP;
 }

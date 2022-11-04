@@ -99,12 +99,13 @@ Score Game::tournament(){
 }
 
 Game::Game(StrategiesVector& strategies,
+           const StrategiesNames& strategies_names,
            const Matrix& matrix,
            unsigned int steps_count,
            GameMode mode,
            Storage& storage
            ):
-        _viewer(GameViewer(strategies.size())),
+        _viewer(strategies_names),
         _strategies(strategies),
         _matrix(matrix),
         _steps_count(steps_count),

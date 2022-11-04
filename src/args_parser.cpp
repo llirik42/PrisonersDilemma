@@ -270,7 +270,7 @@ ParsingStatus ArgsParser::get_parsing_status() const{
     return _parsing_status;
 }
 
-const std::vector<std::string>& ArgsParser::get_strategies_names() const{
+const StrategiesNames& ArgsParser::get_strategies_names() const{
     return _strategies_names;
 }
 

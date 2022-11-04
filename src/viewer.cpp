@@ -53,16 +53,13 @@ void view_list(const std::string& list_title, const ListWithDescription& list, b
     }
 }
 
-GameViewer::GameViewer():_players_count(0), _rounds_counter(0) {}
+GameViewer::GameViewer(): _players_count(0), _rounds_counter(0) {}
 
-GameViewer::GameViewer(unsigned int players_count):_players_count(players_count), _rounds_counter(0){
-    for (unsigned int i = 0; i < _players_count; i++){
-        std::string out({'P'});
-        out += std::to_string(i + 1);
-
+GameViewer::GameViewer(const StrategiesNames& strategies_names):_players_count(strategies_names.size()), _rounds_counter(0){
+    for (const auto& name: strategies_names){
         std::cout.width(WIDTH2);
 
-        std::cout << out;
+        std::cout << name;
     }
 
     std::cout << '\n';

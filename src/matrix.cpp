@@ -218,9 +218,9 @@ bool Matrix::is_consistent() const{
 }
 
 const Row& Matrix::operator[](const Choices& choices) const{
-    return _content[choices];
+    return _content.at(choices);
 }
 
 int Matrix::get_element(const Choices& row_code, unsigned int index_in_row) const{
-    return _content[row_code][index_in_row];
+    return _content.at(row_code)[index_in_row];
 }

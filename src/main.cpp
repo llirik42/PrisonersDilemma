@@ -34,8 +34,10 @@ int main(int arc, char** argv){
 
     History previous_games_history = storage.get_previous_games_history();
 
-    StrategiesVector strategies_list;
-    for (const auto& title : args_parser.get_strategies_names()){
+
+    StrategiesNames strategies_names = args_parser.get_strategies_names();
+    StrategiesVector strategies;
+    for (const auto& title : strategies_names){
         Strategy new_strategy = factory.create_strategy(title);
 
         storage.register_strategy(new_strategy);
@@ -46,11 +48,11 @@ int main(int arc, char** argv){
 
         new_strategy->apply_previous_games_experience(previous_games_history);
 
-        strategies_list.push_back(new_strategy);
+        strategies.push_back(new_strategy);
     }
 
-    Game game(strategies_list, matrix,args_parser.get_steps_count(),
-            args_parser.get_game_mode(),storage);
+    Game game(strategies, strategies_names, matrix, args_parser.get_steps_count(),
+              args_parser.get_game_mode(), storage);
 
     game.start();
 

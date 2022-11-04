@@ -18,5 +18,5 @@ private:
         Strategy (*create)();
     };
 
-    mutable std::map<const std::string, StrategyInfo> _info;
+    std::map<const std::string, StrategyInfo> _info;
 };
