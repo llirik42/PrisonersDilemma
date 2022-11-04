@@ -1,8 +1,6 @@
 #include "periodic_strategy.h"
 
-RawPeriodicStrategy::RawPeriodicStrategy():_steps_count(0), _period(1), _current_step(COOPERATION_STEP) {}
-
-Step RawPeriodicStrategy::act([[maybe_unused]] const Choices& enemies_choices){
+Step RawPeriodicStrategy::act([[maybe_unused]] const Round& round){
     const Step result = _current_step;
 
     _steps_count++;

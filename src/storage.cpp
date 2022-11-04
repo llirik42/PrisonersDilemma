@@ -1,105 +1,121 @@
 #include <fstream>
+#include <regex>
+#include <vector>
 #include "storage.h"
 
-inline const std::string STRATEGIC_DATA_FILE_NAME = "strategic_data";
+inline const std::string HISTORY_FILE_NAME = "history";
 
-void dump_strategic_data(unsigned int id_of_strateg, const std::string& configs_path, const History& history_of_strateg){
-    if (id_of_strateg){
-        std::ofstream ofstream(configs_path + STRATEGIC_DATA_FILE_NAME, std::ios::app);
+inline bool check_history_line(const std::string& history_line){
+    static const std::regex regex(R"(((\w+):[CD] ){3})");
+    return std::regex_match(history_line, regex);
+}
 
-        for (const auto& record: history_of_strateg){
-            for (const auto& value: record){
-                ofstream.put(value);
-                ofstream.put(' ');
-            }
-            ofstream.put('\n');
-        }
+inline Round extract_round_from_history_line(const std::string& string){
+    Round result;
+
+    static const std::regex strategy_step_regex(R"(([a-zA-Z]+):[CD])");
+
+    std::smatch smatch;
+
+    std::string string_copy = string;
+
+    std::vector<std::string> tmp;
+
+    while (regex_search(string_copy, smatch, strategy_step_regex)){
+        tmp.push_back(smatch[0].str());
+        string_copy = smatch.suffix();
     }
-}
-void read_strategic_data(const std::string& configs_path, History& read_history){
-    std::ifstream file_with_data(configs_path + STRATEGIC_DATA_FILE_NAME);
 
-    if (!file_with_data.is_open()){
-        return;
-    }
+    for (const auto& s : tmp){
+        std::string strategy_name;
 
-    while (!file_with_data.eof()){
-        std::string str;
-        std::getline(file_with_data, str);
-
-        if (!str.empty()){
-            read_history.push_back({str[0], str[2]});
+        for (unsigned int i = 0; i < s.size() - 2; i++){
+            strategy_name.push_back(s[i]);
         }
-    }
-}
 
-bool AbstractStorage::is_empty() const{
-    return false;
-}
-
-Choices AbstractStorage::get_last_enemies_choices([[maybe_unused]] const Strategy& strategy) const{
-    return {};
-}
-
-void AbstractStorage::append_choices([[maybe_unused]] const Choices& choice){}
-
-History AbstractStorage::get_previous_games_history() const{
-    return {};
-}
-
-Storage::Storage(const std::string& configs_path){
-    _ids_count = 0;
-    _id_of_strateg = 0; // 0 - means no strateg, id of strateg would be shifted by 1 (1 instead of 0 etc.)
-    _configs_path = configs_path + '/';
-
-    read_strategic_data(_configs_path, _history_of_strateg);
-}
-
-bool Storage::is_empty() const{
-    return _global_history.empty();
-}
-
-Choices Storage::get_last_enemies_choices(unsigned int id) const{
-    Choices result;
-
-    const Choices last_choices = _global_history.back();
-    for (unsigned int i = 0; i < last_choices.size(); i++){
-        if (i != id){
-            result.push_back(last_choices[i]);
-        }
+        result[strategy_name] = s[s.size() - 1];
     }
 
     return result;
 }
 
-Choices Storage::get_last_enemies_choices(const Strategy& strategy) const{
-    return get_last_enemies_choices(_ids.at(strategy));
+void dump_history(const std::string& configs_path, const History& history){
+    std::ofstream ofstream(configs_path + HISTORY_FILE_NAME, std::ios::app);
+
+    for (const auto& record: history){
+        for (const auto& kv: record){
+            ofstream << kv.first << ':' << kv.second << ' ';
+        }
+        ofstream.put('\n');
+    }
+}
+
+bool read_history(const std::string& configs_path, History& history){
+    std::ifstream ifstream(configs_path + HISTORY_FILE_NAME);
+
+    if (!ifstream.is_open()){
+        return false;
+    }
+
+    while (!ifstream.eof()){
+        std::string current_line;
+        std::getline(ifstream, current_line);
+
+        if (!check_history_line(current_line)){
+            return false;
+        }
+
+        Round current_round = extract_round_from_history_line(current_line);
+
+        history.push_back(current_round);
+    }
+
+    return true;
+}
+
+bool AbstractStorage::is_current_game_history_empty() const{
+    return false;
+}
+
+Round AbstractStorage::get_previous_round_info() const{
+    return {};
+}
+
+History AbstractStorage::get_previous_games_history() const{
+    return {};
+}
+
+void AbstractStorage::append_round([[maybe_unused]] const Round& round) {}
+
+Storage::Storage(const std::string& configs_path){
+    _configs_path = configs_path + '/';
+
+    read_history(_configs_path, _previous_games_history);
+}
+
+bool Storage::is_current_game_history_empty() const{
+    return _current_game_history.empty();
+}
+
+Round Storage::get_previous_round_info() const{
+    if (_current_game_history.empty()){
+        return {};
+    }
+
+    return _current_game_history.back();
 }
 
 History Storage::get_previous_games_history() const{
-    return _history_of_strateg;
+    return _previous_games_history;
 }
 
-void Storage::register_strategy(const Strategy& strategy){
-    _ids[strategy] = _ids_count++;
-}
-
-void Storage::append_choices(const Choices& choices){
-    _global_history.push_back(choices);
-
-    if (_id_of_strateg){
-        _history_of_strateg.push_back(get_last_enemies_choices(_id_of_strateg - 1));
-    }
+void Storage::append_round(const Round& round){
+    _current_game_history.push_back(round);
 }
 
 Storage::~Storage(){
     try{
-        dump_strategic_data(_id_of_strateg, _configs_path, _history_of_strateg);
+        dump_history(_configs_path, _current_game_history);
     }
     catch(...){}
-}
-
-void Storage::register_strateg(const Strategy& strategy){
-    _id_of_strateg = _ids[strategy] + 1;
-    _history_of_strateg = {};
 }

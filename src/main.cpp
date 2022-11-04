@@ -34,19 +34,16 @@ int main(int arc, char** argv){
 
     History previous_games_history = storage.get_previous_games_history();
 
+    const bool is_previous_games_history_not_empty = !previous_games_history.empty();
 
     StrategiesNames strategies_names = args_parser.get_strategies_names();
     StrategiesVector strategies;
-    for (const auto& title : strategies_names){
-        Strategy new_strategy = factory.create_strategy(title);
+    for (const auto& name : strategies_names){
+        Strategy new_strategy = factory.create_strategy(name);
 
-        storage.register_strategy(new_strategy);
-
-        if (new_strategy->is_super_smart()){
-            storage.register_strateg(new_strategy);
+        if (is_previous_games_history_not_empty){
+            new_strategy->apply_previous_games_experience(previous_games_history);
         }
-
-        new_strategy->apply_previous_games_experience(previous_games_history);
 
         strategies.push_back(new_strategy);
     }

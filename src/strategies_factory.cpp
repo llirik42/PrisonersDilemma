@@ -32,18 +32,21 @@ StrategiesFactory::StrategiesFactory(){
         create<RawKindStrategy>
     });
 
-    _info["Strateg"] = StrategyInfo({
-        "Counts cooperation and betrayal in whole game. Cooperation > Betrayal - cooperates, else - betrays",
-        create<RawStrategStrategy>
+    _info["Strategist"] = StrategyInfo({
+        "If Cooperation > Betrayal in the whole game - cooperates, else - betrays. With no knowledge cooperates",
+        create<RawStrategist>
     });
     _info["TitForTat"] = StrategyInfo({
-        "If Cooperation > Betrayal in previous round - cooperates, else - betrays. In first round cooperates",
+        "If Cooperation > Betrayal in the previous round - cooperates, else - betrays. With no knowledge cooperates",
         create<RawTitForTatStrategy>
     });
 }
 
-Strategy StrategiesFactory::create_strategy(const std::string& title) const{
-    return _info.at(title).create();
+Strategy StrategiesFactory::create_strategy(const std::string& name) const{
+    Strategy result = _info.at(name).create();
+    result->_strategy_name = name;
+
+    return result;
 }
 
 std::map<std::string, std::string> StrategiesFactory::get_strategies_description() const{

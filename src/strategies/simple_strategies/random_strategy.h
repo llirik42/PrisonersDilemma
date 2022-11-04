@@ -4,5 +4,5 @@
 
 class RawRandomStrategy: public RawAbstractStrategy{
 public:
-    Step act([[maybe_unused]] const Choices& enemies_choices) override;
+    [[nodiscard]] Step act([[maybe_unused]] const Round& round) override;
 };

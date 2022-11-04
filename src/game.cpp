@@ -55,16 +55,22 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
         }
 
         Choices current_choices;
-        for (auto& current_strategy : strategies_triplet){
-            Choices prev_enemies_choice;
-            if (!_storage.is_empty()){
-                prev_enemies_choice = _storage.get_last_enemies_choices(current_strategy);
-            }
+        Round current_round;
 
-            current_choices.push_back(current_strategy->act(prev_enemies_choice));
+        Round previous_round = {};
+        if (!_storage.is_current_game_history_empty()){
+            previous_round = _storage.get_previous_round_info();
         }
 
-        _storage.append_choices(current_choices);
+        for (auto& current_strategy : strategies_triplet){
+            Step current_step = current_strategy->act(previous_round);
+
+            current_choices.push_back(current_step);
+
+            current_round[current_strategy->get_strategy_name()] = current_step;
+        }
+
+        _storage.append_round(current_round);
 
         auto delta_score = _matrix[current_choices];
         add_score(delta_score, score);

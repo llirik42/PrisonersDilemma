@@ -2,12 +2,13 @@
 
 #include "../abstract_strategy.h"
 
-class RawKindStrategy: public RawAbstractStrategy{
+class RawStrategist: public RawAbstractStrategy{
 public:
     [[nodiscard]] Step act(const Round& round) override;
     void apply_previous_games_experience(const History& history) override;
 private:
-    bool _was_betrayed = false;
+    unsigned int _cooperation_count = 0;
+    unsigned int _defection_count = 0;
 
-    [[nodiscard]] bool was_betrayed_in_previous_games(const History& history) const;
+    void apply_choices(const Round& round);
 };

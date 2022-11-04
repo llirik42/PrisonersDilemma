@@ -5,5 +5,5 @@
 #include "simple_strategies/periodic_strategy.h"
 
 #include "complex_strategies/kind_strategy.h"
-#include "complex_strategies/strateg_strategy.h"
+#include "complex_strategies/strategist_strategy.h"
 #include "complex_strategies/tit_for_tat_strategy.h"

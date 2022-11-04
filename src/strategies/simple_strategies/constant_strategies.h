@@ -2,12 +2,12 @@
 
 #include "../abstract_strategy.h"
 
-class RawCooperatorStrategy: public RawAbstractStrategy{
+class RawCooperatorStrategy:public RawAbstractStrategy{
 public:
-    Step act([[maybe_unused]] const Choices& enemies_choices) override;
+    [[nodiscard]] Step act([[maybe_unused]] const Round& round) override;
 };
 
-class RawDefectorStrategy: public RawAbstractStrategy{
+class RawDefectorStrategy:public RawAbstractStrategy{
 public:
-    Step act([[maybe_unused]] const Choices& enemies_choices) override;
+    [[nodiscard]] Step act([[maybe_unused]] const Round& round) override;
 };
