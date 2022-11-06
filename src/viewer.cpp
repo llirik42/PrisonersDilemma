@@ -14,7 +14,7 @@ inline const unsigned int LIST_INDENT = 10;
 using ListWithDescription = std::map<std::string, std::string>;
 
 template<typename Container, typename Element>
-void view_container(const std::string& title, Container container, bool unary_plus){
+void view_container(const std::string& title, const Container& container, bool unary_plus){
     if (unary_plus){
         std::cout.setf(std::ostream::showpos);
     }
@@ -46,7 +46,7 @@ void view_list(const std::string& list_title, const ListWithDescription& list, b
             std::cout << "--";
         }
 
-        std::cout.width(WIDTH_FOR_LIST + 2 * (1 - args));
+        std::cout.width(WIDTH_FOR_LIST + 2 * (!args));
         std::cout.setf(std::ostream::left);
         std::cout << element << description << '\n';
         std::cout.unsetf(std::ostream::left);
@@ -65,7 +65,7 @@ GameViewer::GameViewer(const StrategiesNames& strategies_names):_players_count(s
     std::cout << '\n';
 }
 
-void GameViewer::view_round(const Score& current_score, const Score& delta_score, StrategiesIndexes indexes){
+void GameViewer::view_round(const Score& current_score, const Score& delta_score, const StrategiesIndexes& indexes){
     std::cout << "Round " << (1 + _rounds_counter++) << ":\n";
 
     std::cout.setf(std::ostream::showpos);
@@ -112,7 +112,7 @@ void GameViewer::view_final_score(const Score& final_score){
     view_container<const Score&, int>("Final score", final_score, false);
 }
 
-void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strategies_description){
+void GameViewer::view_help_command(const StrategiesDescription& strategies_description){
     std::cout << "The program is the simulator of Prisoner's dilemma for 3 players. It arranges classical rounds "
                  "with 3 players and tournament, where all kinds of threes are being competed.\n\n";
 

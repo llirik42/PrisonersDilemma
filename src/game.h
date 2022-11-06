@@ -12,8 +12,8 @@ using StrategiesVector = std::vector<Strategy>;
 
 class Game{
 public:
-    Game(StrategiesVector& strategies, const StrategiesNames& strategies_names, const Matrix& matrix, unsigned int steps_count, GameMode mode,
-         Storage& storage);
+    Game(StrategiesVector& strategies, const StrategiesNames& strategies_names, const Matrix& matrix,
+         unsigned int steps_count, GameMode mode, Storage& storage);
 
     void start();
 private:
@@ -24,9 +24,9 @@ private:
     GameMode _mode;
     Storage& _storage;
 
-    [[nodiscard]] StrategiesTriplet extract_strategies_triplet(StrategiesIndexes indexes) const;
+    [[nodiscard]] StrategiesTriplet extract_strategies_triplet(const StrategiesIndexes& indexes) const;
 
-    Score competition(StrategiesTriplet& strategies_triplet) const;
+    Score competition(const StrategiesTriplet& strategies_triplet) const;
 
     Score tournament();
 };

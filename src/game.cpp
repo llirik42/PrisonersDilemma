@@ -35,11 +35,11 @@ void add_score(const Row& source, Score& destination){
     destination[2] += source[2];
 }
 
-StrategiesTriplet Game::extract_strategies_triplet(StrategiesIndexes indexes) const{
+StrategiesTriplet Game::extract_strategies_triplet(const StrategiesIndexes& indexes) const{
     return StrategiesTriplet({_strategies[indexes[0]], _strategies[indexes[1]], _strategies[indexes[2]]});
 }
 
-Score Game::competition(StrategiesTriplet& strategies_triplet) const{
+Score Game::competition(const StrategiesTriplet& strategies_triplet) const{
     Score score({0, 0, 0});
 
     for (unsigned int i = 0; i < _steps_count; i++){
