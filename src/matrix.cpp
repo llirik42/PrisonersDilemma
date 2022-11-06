@@ -143,20 +143,18 @@ bool Matrix::is_symmetric() const{
     return condition_1 && condition_2 && condition_3 && condition_4 && condition_5 && condition_6;
 }
 
-Matrix::Matrix():
-_has_error(false),
-_content({
-    {CCC, {7, 7, 7}},
-    {CCD, {3, 3, 9}},
-    {CDC, {3, 9, 3}},
-    {DCC, {9, 3, 3}},
-    {CDD, {0, 5, 5}},
-    {DCD, {5, 0, 5}},
-    {DDC, {5, 5, 0}},
-    {DDD, {1, 1, 1}},
-})
-{}
-
+Matrix::Matrix(): _has_error(false){
+    _content = {
+            {CCC, {7, 7, 7}},
+            {CCD, {3, 3, 9}},
+            {CDC, {3, 9, 3}},
+            {DCC, {9, 3, 3}},
+            {CDD, {0, 5, 5}},
+            {DCD, {5, 0, 5}},
+            {DDC, {5, 5, 0}},
+            {DDD, {1, 1, 1}},
+    };
+}
 Matrix::Matrix(const std::string& path){
     std::ifstream ifstream(path);
 

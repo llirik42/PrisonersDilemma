@@ -116,8 +116,7 @@ Game::Game(StrategiesVector& strategies,
         _matrix(matrix),
         _steps_count(steps_count),
         _mode(mode),
-        _storage(storage)
-        {}
+        _storage(storage) {}
 
 void Game::start(){
     Score score;

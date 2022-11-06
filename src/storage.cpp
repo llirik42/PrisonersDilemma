@@ -87,12 +87,11 @@ History AbstractStorage::get_previous_games_history() const{
 
 void AbstractStorage::append_round([[maybe_unused]] const Round& round) {}
 
-Storage::Storage(const std::string& configs_path){
+Storage::Storage(const std::string& configs_path):
+    _configs_path(configs_path + '/'){
     // Even if configs_path ends with '/', no error will be occurred.
     // For example, "../configs/history" and "../configs//history" are the same paths for file streamers
-    // If don't add '/', then error might occur, because "../configs/history" and "../configshistory" aren't the same
-
-    _configs_path = configs_path + '/';
+    // In case if we don't add '/', then error might occur, because "../configs/history" and "../configshistory" aren't the same
 
     read_history(_configs_path, _previous_games_history);
 }

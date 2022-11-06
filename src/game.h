@@ -26,7 +26,7 @@ private:
 
     [[nodiscard]] StrategiesTriplet extract_strategies_triplet(const StrategiesIndexes& indexes) const;
 
-    Score competition(const StrategiesTriplet& strategies_triplet) const;
+    [[nodiscard]] Score competition(const StrategiesTriplet& strategies_triplet) const;
 
     Score tournament();
 };
