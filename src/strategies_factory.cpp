@@ -52,8 +52,8 @@ Strategy StrategiesFactory::create_strategy(const std::string& name) const{
 std::map<std::string, std::string> StrategiesFactory::get_strategies_description() const{
     std::map<std::string, std::string> result;
 
-    for (const auto& key: _info){
-        result[key.first] = key.second.description;
+    for (const auto& [strategy_name, strategy_info] : _info){
+        result[strategy_name] = strategy_info.description;
 
     }
     return result;

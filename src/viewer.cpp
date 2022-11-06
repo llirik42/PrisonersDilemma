@@ -26,7 +26,7 @@ void view_container(const std::string& title, Container container, bool unary_pl
         std::cout << title << ":\n";
     }
 
-    for (Element i : container){
+    for (const Element& i : container){
         std::cout.width(WIDTH2);
         std::cout << i;
     }
@@ -38,7 +38,7 @@ void view_container(const std::string& title, Container container, bool unary_pl
 
 void view_list(const std::string& list_title, const ListWithDescription& list, bool args){
     std::cout << list_title << ":\n";
-    for (const auto& element : list){
+    for (const auto& [element, description] : list){
         for (unsigned int i = 0; i < LIST_INDENT; i++){
             std::cout << ' ';
         }
@@ -48,7 +48,7 @@ void view_list(const std::string& list_title, const ListWithDescription& list, b
 
         std::cout.width(WIDTH_FOR_LIST + 2 * (1 - args));
         std::cout.setf(std::ostream::left);
-        std::cout << element.first << element.second << '\n';
+        std::cout << element << description << '\n';
         std::cout.unsetf(std::ostream::left);
     }
 }
@@ -56,7 +56,7 @@ void view_list(const std::string& list_title, const ListWithDescription& list, b
 GameViewer::GameViewer(): _players_count(0), _rounds_counter(0) {}
 
 GameViewer::GameViewer(const StrategiesNames& strategies_names):_players_count(strategies_names.size()), _rounds_counter(0){
-    for (const auto& name: strategies_names){
+    for (const auto& name : strategies_names){
         std::cout.width(WIDTH2);
 
         std::cout << name;
@@ -128,20 +128,20 @@ void GameViewer::view_help_command([[maybe_unused]] StrategiesDescription& strat
     ListWithDescription args_description;
 
     std::cout << "Usage PrisonersDilemma ";
-    for (const auto& arg: args_info){
-        bool is_arg_necessary = arg.second.is_necessary;
+    for (const auto& [arg, info] : args_info){
+        bool is_arg_necessary = info.is_necessary;
 
         if (!is_arg_necessary){
             std::cout << '[';
         }
 
-        std::cout << "--" << arg.first;
+        std::cout << "--" << arg;
 
         if (!is_arg_necessary){
             std::cout << "] ";
         }
 
-        args_description[arg.first] = arg.second.description;
+        args_description[arg] = info.description;
     }
     std::cout << "\n\n";
 

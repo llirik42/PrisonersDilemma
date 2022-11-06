@@ -2,13 +2,13 @@
 #include "strategist_strategy.h"
 
 void RawStrategist::apply_choices(const Round& round){
-    for (const auto& choice: round){
-        if (choice.first == _strategy_name){
+    for (const auto& [strategy_name, step]: round){
+        if (strategy_name == _strategy_name){
             continue;
         }
 
-        _cooperation_count += (choice.second == COOPERATION_STEP);
-        _defection_count += (choice.second == DEFECTION_STEP);
+        _cooperation_count += (step == COOPERATION_STEP);
+        _defection_count += (step == DEFECTION_STEP);
     }
 }
 

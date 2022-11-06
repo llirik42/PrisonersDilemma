@@ -19,14 +19,14 @@ inline Round extract_round_from_history_line(const std::string& string){
 
     std::string string_copy = string;
 
-    std::vector<std::string> tmp;
+    std::vector<std::string> substrings_vector; // Contains "Cooperator:C", "Defector:D" etc.
 
     while (regex_search(string_copy, smatch, strategy_step_regex)){
-        tmp.push_back(smatch[0].str());
+        substrings_vector.push_back(smatch[0].str());
         string_copy = smatch.suffix();
     }
 
-    for (const auto& s : tmp){
+    for (const auto& s : substrings_vector){
         std::string strategy_name;
 
         for (unsigned int i = 0; i < s.size() - 2; i++){
@@ -42,9 +42,9 @@ inline Round extract_round_from_history_line(const std::string& string){
 void dump_history(const std::string& configs_path, const History& history){
     std::ofstream ofstream(configs_path + HISTORY_FILE_NAME, std::ios::app);
 
-    for (const auto& record: history){
-        for (const auto& kv: record){
-            ofstream << kv.first << ':' << kv.second << ' ';
+    for (const auto& record : history){
+        for (const auto& [strategy_name, step] : record){
+            ofstream << strategy_name << ':' << step << ' ';
         }
         ofstream.put('\n');
     }

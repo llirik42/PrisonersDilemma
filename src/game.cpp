@@ -62,7 +62,7 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
             previous_round = _storage.get_previous_round_info();
         }
 
-        for (auto& current_strategy : strategies_triplet){
+        for (const auto& current_strategy : strategies_triplet){
             Step current_step = current_strategy->act(previous_round);
 
             current_choices.push_back(current_step);

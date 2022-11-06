@@ -56,8 +56,8 @@ ParsingStatus validate_args(int arc, const char** argv){
 
 ParsingStatus validate_count_of_met_args(const ArgsParser::MetArgsMap& met_args){
     bool met_some_arg = false;
-    for (const auto& kv: met_args){
-        if (kv.second){
+    for (const auto& [arg_name, met] : met_args){
+        if (met){
             met_some_arg = true;
         }
     }
@@ -66,11 +66,11 @@ ParsingStatus validate_count_of_met_args(const ArgsParser::MetArgsMap& met_args)
 }
 
 ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDescription& description){
-    for (unsigned int i = 0; i < parser._strategies_names.size(); ++i){
+    for (unsigned int i = 0; i < parser._strategies_names.size(); i++){
         bool met_unknown_strategy = false;
 
-        for (const auto& kv : description){
-            if (kv.first == parser._strategies_names[i]){
+        for (const auto& [strategy_name, strategy_description] : description){
+            if (strategy_name == parser._strategies_names[i]){
                 met_unknown_strategy = true;
                 break;
             }
@@ -80,7 +80,7 @@ ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDesc
             return ParsingStatus::UNKNOWN_STRATEGIES;
         }
 
-        for (unsigned int j = 0; j < i; ++j){
+        for (unsigned int j = 0; j < i; j++){
             if (parser._strategies_names[i] == parser._strategies_names[j]){
                 return ParsingStatus::REPEATED_STRATEGIES;
             }
@@ -92,8 +92,8 @@ ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDesc
 
 bool is_help_only_arg(ArgsParser::MetArgsMap& met_args){
     if (met_args["--help"]){
-        for (const auto& kv: met_args){
-            if (kv.first != "--help" && kv.second){
+        for (const auto& [arg_name, met]: met_args){
+            if (arg_name != "--help" && met){
                 return false;
             }
         }
@@ -253,8 +253,7 @@ ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& 
     _game_mode(GameMode::DETAILED),
     _parsing_status(ParsingStatus::SUCCESS),
     _is_default_matrix(true),
-    _is_help(false)
-    {
+    _is_help(false){
 
     const ParsingStatus validation_status = validate_args(arc, argv);
 

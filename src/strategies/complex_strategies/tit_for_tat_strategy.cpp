@@ -24,13 +24,13 @@ Step RawTitForTatStrategy::act(const Round& round){
     unsigned int cooperation_count = 0;
     unsigned int defection_count = 0;
 
-    for (const auto& choice: round){
-        if (choice.first == _strategy_name){
+    for (const auto& [strategy_name, step] : round){
+        if (strategy_name == _strategy_name){
             continue;
         }
 
-        cooperation_count += (choice.second == COOPERATION_STEP);
-        defection_count += (choice.second == DEFECTION_STEP);
+        cooperation_count += (step == COOPERATION_STEP);
+        defection_count += (step == DEFECTION_STEP);
     }
 
     return get_step_from_other_players_statistic(cooperation_count, defection_count);
