@@ -131,4 +131,6 @@ void Game::start(){
     }
 
     GameViewer::view_final_score(score);
+
+    _storage.dump_history();
 }

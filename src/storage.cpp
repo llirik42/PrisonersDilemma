@@ -39,38 +39,32 @@ inline Round extract_round_from_history_line(const std::string& string){
     return result;
 }
 
-void dump_history(const std::string& configs_path, const History& history){
-    std::ofstream ofstream(configs_path + HISTORY_FILE_NAME, std::ios::app);
-
-    for (const auto& record : history){
-        for (const auto& [strategy_name, step] : record){
-            ofstream << strategy_name << ':' << step << ' ';
-        }
-        ofstream.put('\n');
-    }
-}
-
 bool read_history(const std::string& configs_path, History& history){
-    std::ifstream ifstream(configs_path + HISTORY_FILE_NAME);
+    try{
+        std::ifstream ifstream(configs_path + HISTORY_FILE_NAME);
 
-    if (!ifstream.is_open()){
-        return false;
-    }
-
-    while (!ifstream.eof()){
-        std::string current_line;
-        std::getline(ifstream, current_line);
-
-        if (!check_history_line(current_line)){
+        if (!ifstream.is_open()){
             return false;
         }
 
-        Round current_round = extract_round_from_history_line(current_line);
+        while (!ifstream.eof()){
+            std::string current_line;
+            std::getline(ifstream, current_line);
 
-        history.push_back(current_round);
+            if (!check_history_line(current_line)){
+                return false;
+            }
+
+            Round current_round = extract_round_from_history_line(current_line);
+
+            history.push_back(current_round);
+        }
+
+        return true;
     }
-
-    return true;
+    catch(...){
+        throw std::runtime_error("Error while reading history if previous games");
+    }
 }
 
 bool AbstractStorage::is_current_game_history_empty() const{
@@ -116,9 +110,18 @@ void Storage::append_round(const Round& round){
     _current_game_history.push_back(round);
 }
 
-Storage::~Storage(){
+void Storage::dump_history(){
     try{
-        dump_history(_configs_path, _current_game_history);
+        std::ofstream ofstream(_configs_path + HISTORY_FILE_NAME, std::ios::app);
+
+        for (const auto& record : _current_game_history){
+            for (const auto& [strategy_name, step] : record){
+                ofstream << strategy_name << ':' << step << ' ';
+            }
+            ofstream.put('\n');
+        }
     }
-    catch(...){}
+    catch(...){
+        throw std::runtime_error("Error while dumping history of current game");
+    }
 }

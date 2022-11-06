@@ -32,7 +32,7 @@ public:
 
     void append_round(const Round& round) override;
 
-    ~Storage() override;
+    void dump_history();
 private:
     std::string _configs_path;
     History _current_game_history;

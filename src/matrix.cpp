@@ -156,15 +156,20 @@ Matrix::Matrix(): _has_error(false){
     };
 }
 Matrix::Matrix(const std::string& path){
-    std::ifstream ifstream(path);
+    try{
+        std::ifstream ifstream(path);
 
-    // path is incorrect
-    if (!ifstream.is_open()){
-        _has_error = true;
-        return;
+        // path is incorrect
+        if (!ifstream.is_open()){
+            _has_error = true;
+            return;
+        }
+
+        _has_error = !input(ifstream);
     }
-
-    _has_error = !input(ifstream);
+    catch(...){
+        throw std::runtime_error("Error while opening matrix file");
+    }
 }
 
 bool Matrix::has_error() const{

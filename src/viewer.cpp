@@ -101,11 +101,11 @@ void GameViewer::view_round(const Score& current_score, const Score& delta_score
 }
 
 void GameViewer::view_incorrect_matrix(){
-    std::cout << "Incorrect matrix\n";
+    std::cerr << "Incorrect matrix\n";
 }
 
 void GameViewer::view_incorrect_command(){
-    std::cout << "Incorrect command!\n\n";
+    std::cerr << "Incorrect command!\n\n";
 }
 
 void GameViewer::view_final_score(const Score& final_score){
@@ -176,5 +176,9 @@ void GameViewer::view_parsing_error(ParsingStatus status){
         {ParsingStatus::REPEATED_STRATEGIES, "Some strategies are repeated"}
         });
 
-    std::cout << status_to_message[status] << ". See --help";
+    std::cerr << status_to_message[status] << ". See --help";
+}
+
+void GameViewer::view_exception(const std::exception& exception){
+    std::cerr << exception.what();
 }

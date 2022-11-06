@@ -17,6 +17,7 @@ public:
     static void view_final_score(const Score& final_score);
     static void view_help_command(const StrategiesDescription& strategies_description);
     static void view_round(const Score& current_score, const Choices& choices, const Score& delta_score);
+    static void view_exception(const std::exception& exception);
 private:
     unsigned int _players_count;
     unsigned int _rounds_counter;
