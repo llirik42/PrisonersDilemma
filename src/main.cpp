@@ -3,14 +3,14 @@
 #include "game.h"
 #include "storage.h"
 
-int main(int arc, char** argv){
+int main(int arc, const char** argv){
     srand(time(nullptr));
 
     StrategiesFactory factory = StrategiesFactory();
 
     StrategiesDescription strategies_description = factory.get_strategies_description();
 
-    ArgsParser args_parser(arc, const_cast<const char**>(argv), strategies_description);
+    ArgsParser args_parser(arc, argv, strategies_description);
 
     ParsingStatus status = args_parser.get_parsing_status();
 
