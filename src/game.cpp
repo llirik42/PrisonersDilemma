@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "viewer.h"
 
-enum CommandReadingStatus{
+enum class CommandReadingStatus{
     QUIT_COMMAND,
     INCORRECT_COMMAND,
     NO_COMMAND
@@ -14,14 +14,14 @@ CommandReadingStatus read_command(){
     std::getline(std::cin, current_command);
 
     if (current_command == "quit"){
-        return QUIT_COMMAND;
+        return CommandReadingStatus::QUIT_COMMAND;
     }
 
     if (!current_command.empty()){
-        return INCORRECT_COMMAND;
+        return CommandReadingStatus::INCORRECT_COMMAND;
     }
 
-    return NO_COMMAND;
+    return CommandReadingStatus::NO_COMMAND;
 }
 
 void add_score(const Score& source, Score& destination, StrategiesIndexes indexes){
@@ -46,10 +46,10 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
         if (_mode == DETAILED){
             CommandReadingStatus status = read_command();
 
-            if (status == QUIT_COMMAND){
+            if (status == CommandReadingStatus::QUIT_COMMAND){
                 break;
             }
-            if (status == INCORRECT_COMMAND){
+            if (status == CommandReadingStatus::INCORRECT_COMMAND){
                 GameViewer::view_incorrect_command();
             }
         }

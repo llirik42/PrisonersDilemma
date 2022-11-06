@@ -5,7 +5,7 @@
 #include <map>
 #include "utils.h"
 
-enum ParsingStatus{
+enum class ParsingStatus{
     SUCCESS,
     TOO_FEW_ARG,
     REPEATED_ARGS,

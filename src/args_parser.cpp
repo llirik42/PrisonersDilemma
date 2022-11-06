@@ -6,10 +6,10 @@ ParsingStatus validate_directory(const std::string& path){
     const std::filesystem::path file_system_path(path);
 
     try{
-        return std::filesystem::is_directory(path) ? SUCCESS : INCORRECT_CONFIGS_PATH;
+        return std::filesystem::is_directory(path) ? ParsingStatus::SUCCESS : ParsingStatus::INCORRECT_CONFIGS_PATH;
     }
     catch(...){
-        return OPENING_CONFIGS_DIRECTORY_ERROR;
+        return ParsingStatus::OPENING_CONFIGS_DIRECTORY_ERROR;
     }
 }
 
@@ -47,11 +47,11 @@ ParsingStatus validate_args(int arc, const char** argv){
 
     for (int i = 1; i < arc; i++){
         if (!std::regex_match(argv[i], arg_regex)){
-            return INCORRECT_ARGS;
+            return ParsingStatus::INCORRECT_ARGS;
         }
     }
 
-    return SUCCESS;
+    return ParsingStatus::SUCCESS;
 }
 
 ParsingStatus validate_count_of_met_args(const ArgsParser::MetArgsMap& met_args){
@@ -62,7 +62,7 @@ ParsingStatus validate_count_of_met_args(const ArgsParser::MetArgsMap& met_args)
         }
     }
 
-    return met_some_arg ? SUCCESS : TOO_FEW_ARG;
+    return met_some_arg ? ParsingStatus::SUCCESS : ParsingStatus::TOO_FEW_ARG;
 }
 
 ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDescription& description){
@@ -77,17 +77,17 @@ ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDesc
         }
 
         if (!met_unknown_strategy){
-            return UNKNOWN_STRATEGIES;
+            return ParsingStatus::UNKNOWN_STRATEGIES;
         }
 
         for (unsigned int j = 0; j < i; ++j){
             if (parser._strategies_names[i] == parser._strategies_names[j]){
-                return REPEATED_STRATEGIES;
+                return ParsingStatus::REPEATED_STRATEGIES;
             }
         }
     }
 
-    return SUCCESS;
+    return ParsingStatus::SUCCESS;
 }
 
 bool is_help_only_arg(ArgsParser::MetArgsMap& met_args){
@@ -180,7 +180,7 @@ void extract_args(int arc, const char** argv, ArgsParser::MetArgsMap& met_args, 
         auto current_arg_name = extract_arg_name(argv[i]);
 
         if (met_args[current_arg_name]){
-            parser._parsing_status = REPEATED_ARGS;
+            parser._parsing_status = ParsingStatus::REPEATED_ARGS;
             return;
         }
 
@@ -205,14 +205,14 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     extract_args(arc, argv, met_args, *this);
 
     ParsingStatus count_validation_status = validate_count_of_met_args(met_args);
-    if (count_validation_status != SUCCESS){
+    if (count_validation_status != ParsingStatus::SUCCESS){
         _parsing_status = count_validation_status;
         return;
     }
 
     if (met_args["--help"]){
         if (!is_help_only_arg(met_args)){
-            _parsing_status = HELP_IS_NOT_ONLY_ARG;
+            _parsing_status = ParsingStatus::HELP_IS_NOT_ONLY_ARG;
         }
 
         _is_help = true;
@@ -220,12 +220,12 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     }
 
     if (!met_args["--strategies"]){
-        _parsing_status = NO_STRATEGIES;
+        _parsing_status = ParsingStatus::NO_STRATEGIES;
         return;
     }
 
     ParsingStatus strategies_validation_status = validate_strategies(*this, strategies_description);
-    if (strategies_validation_status != SUCCESS){
+    if (strategies_validation_status != ParsingStatus::SUCCESS){
         _parsing_status = strategies_validation_status;
         return;
     }
@@ -233,7 +233,7 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     if (!_configs_path.empty()){
         ParsingStatus validating_directory_status = validate_directory(_configs_path);
 
-        if (validating_directory_status != SUCCESS){
+        if (validating_directory_status != ParsingStatus::SUCCESS){
             _parsing_status = validating_directory_status;
             return;
         }
@@ -254,11 +254,11 @@ ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& 
     _game_mode = DETAILED;
     _is_help = false;
     _is_default_matrix = true;
-    _parsing_status = SUCCESS;
+    _parsing_status = ParsingStatus::SUCCESS;
 
     const ParsingStatus validation_status = validate_args(arc, argv);
 
-    if (validation_status != SUCCESS){
+    if (validation_status != ParsingStatus::SUCCESS){
         _parsing_status = validation_status;
         return;
     }
