@@ -55,7 +55,7 @@ void view_list(const std::string& list_title, const ListWithDescription& list, b
 
 GameViewer::GameViewer(): _players_count(0), _rounds_counter(0) {}
 
-GameViewer::GameViewer(const StrategiesNames& strategies_names):_players_count(strategies_names.size()), _rounds_counter(0){
+GameViewer::GameViewer(const StrategiesNames& strategies_names): _players_count(strategies_names.size()), _rounds_counter(0){
     for (const auto& name : strategies_names){
         std::cout.width(WIDTH2);
 
