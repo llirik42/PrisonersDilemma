@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <functional>
 #include "utils.h"
 #include "strategies/abstract_strategy.h"
 
@@ -15,7 +16,7 @@ public:
 private:
     struct StrategyInfo{
         std::string description;
-        Strategy (*create)();
+        std::function<Strategy(void)> create;
     };
 
     std::map<const std::string, StrategyInfo> _info;

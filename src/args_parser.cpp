@@ -1,5 +1,6 @@
 #include <regex>
 #include <filesystem>
+#include <functional>
 #include "args_parser.h"
 
 ParsingStatus validate_directory(const std::string& path){
@@ -168,7 +169,7 @@ void extract_strategies_names(const char* arg, ArgsParser& parser){
 }
 
 void extract_args(int arc, const char** argv, ArgsParser::MetArgsMap& met_args, ArgsParser& parser){
-    std::map<std::string,void(*)(const char*, ArgsParser&)> extracting_function({
+    std::map<std::string, std::function<void(const char*, ArgsParser&)>> extracting_function({
         {"--strategies", extract_strategies_names},
         {"--mode", extract_game_mode},
         {"--steps", extract_steps_count},
