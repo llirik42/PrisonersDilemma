@@ -2,9 +2,10 @@
 #include "args_parser.h"
 #include "game.h"
 #include "storage.h"
+#include "random_init.h"
 
 int main(int arc, const char** argv){
-    srand(time(nullptr));
+    init_random();
 
     StrategiesFactory factory = StrategiesFactory();
 

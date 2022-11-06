@@ -11,7 +11,7 @@ add_compile_options(-Wall -Wextra -pedantic -Werror)
 
 file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} src/strategies/*.cpp)
 add_library(corelib OBJECT ${SOURCES}
-        src/args_parser.cpp src/game.cpp src/matrix.cpp src/strategies_factory.cpp src/viewer.cpp src/storage.cpp)
+        src/args_parser.cpp src/game.cpp src/matrix.cpp src/strategies_factory.cpp src/viewer.cpp src/storage.cpp src/random_init.cpp)
 
 add_executable(${exe_name} src/main.cpp )
 target_link_libraries(${exe_name} corelib)
