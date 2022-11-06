@@ -139,13 +139,13 @@ void extract_game_mode(const char* arg, ArgsParser& parser){
     // This arg was validated earlier, so it can be only "Detailed", "Fast" or "Tournament"
     switch (*arg){
         case 'd':
-            parser._game_mode = DETAILED;
+            parser._game_mode = GameMode::DETAILED;
             return;
         case 'f':
-            parser._game_mode = FAST;
+            parser._game_mode = GameMode::FAST;
             return;
         default:
-            parser._game_mode = TOURNAMENT;
+            parser._game_mode = GameMode::TOURNAMENT;
     }
 }
 
@@ -240,7 +240,7 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     }
 
     if (_strategies_names.size() > 3 && !met_args["--mode"]){
-        _game_mode = TOURNAMENT;
+        _game_mode = GameMode::TOURNAMENT;
     }
 
     if (met_args["--matrix"]){
@@ -248,13 +248,13 @@ void ArgsParser::parse(int arc, const char** argv, const StrategiesDescription& 
     }
 }
 
-ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& strategies_description){
-    // default values
-    _steps_count = 1;
-    _game_mode = DETAILED;
-    _is_help = false;
-    _is_default_matrix = true;
-    _parsing_status = ParsingStatus::SUCCESS;
+ArgsParser::ArgsParser(int arc, const char** argv, const StrategiesDescription& strategies_description):
+    _steps_count(1),
+    _game_mode(GameMode::DETAILED),
+    _parsing_status(ParsingStatus::SUCCESS),
+    _is_default_matrix(true),
+    _is_help(false)
+    {
 
     const ParsingStatus validation_status = validate_args(arc, argv);
 

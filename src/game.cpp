@@ -43,7 +43,7 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
     Score score({0, 0, 0});
 
     for (unsigned int i = 0; i < _steps_count; i++){
-        if (_mode == DETAILED){
+        if (_mode == GameMode::DETAILED){
             CommandReadingStatus status = read_command();
 
             if (status == CommandReadingStatus::QUIT_COMMAND){
@@ -75,7 +75,7 @@ Score Game::competition(StrategiesTriplet& strategies_triplet) const{
         auto delta_score = _matrix[current_choices];
         add_score(delta_score, score);
 
-        if (_mode == DETAILED){
+        if (_mode == GameMode::DETAILED){
             GameViewer::view_round(score, current_choices, delta_score);
         }
     }
@@ -122,7 +122,7 @@ Game::Game(StrategiesVector& strategies,
 void Game::start(){
     Score score;
 
-    if (_mode != TOURNAMENT){
+    if (_mode != GameMode::TOURNAMENT){
         StrategiesTriplet competitors = extract_strategies_triplet({0, 1, 2});
 
         score = competition(competitors);

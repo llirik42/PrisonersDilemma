@@ -31,7 +31,7 @@ inline int char_to_digit(char c){
     return c - '0';
 }
 
-enum GameMode{
+enum class GameMode{
     FAST,
     DETAILED,
     TOURNAMENT,
