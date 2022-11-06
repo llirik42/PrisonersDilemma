@@ -164,16 +164,16 @@ void GameViewer::view_round(const Score& current_score, const Choices& choices, 
 
 void GameViewer::view_parsing_error(ParsingStatus status){
     static std::map<ParsingStatus, std::string> status_to_message({
-        {TOO_FEW_ARG,                            "Too few args"},
-        {HELP_IS_NOT_ONLY_ARG,                   "--help is not the only arg"},
-        {TOO_MANY_STRATEGIES_FOR_NON_TOURNAMENT, "Too many strategies for non-tournament mode"},
-        {INCORRECT_ARGS,                         "Incorrect args"},
-        {REPEATED_ARGS,                          "Some args are repeated"},
-        {UNKNOWN_STRATEGIES,                     "Unknown strategies"},
-        {NO_STRATEGIES,                          "At least 3 strategies must be chosen"},
-        {INCORRECT_CONFIGS_PATH,                 "Incorrect path of configs"},
-        {OPENING_CONFIGS_DIRECTORY_ERROR,        "Error occurred while opening configs directory"},
-        {REPEATED_STRATEGIES, "Some strategies are repeated"}
+        {ParsingStatus::TOO_FEW_ARG,                            "Too few args"},
+        {ParsingStatus::HELP_IS_NOT_ONLY_ARG,                   "--help is not the only arg"},
+        {ParsingStatus::TOO_MANY_STRATEGIES_FOR_NON_TOURNAMENT, "Too many strategies for non-tournament mode"},
+        {ParsingStatus::INCORRECT_ARGS,                         "Incorrect args"},
+        {ParsingStatus::REPEATED_ARGS,                          "Some args are repeated"},
+        {ParsingStatus::UNKNOWN_STRATEGIES,                     "Unknown strategies"},
+        {ParsingStatus::NO_STRATEGIES,                          "At least 3 strategies must be chosen"},
+        {ParsingStatus::INCORRECT_CONFIGS_PATH,                 "Incorrect path of configs"},
+        {ParsingStatus::OPENING_CONFIGS_DIRECTORY_ERROR,        "Error occurred while opening configs directory"},
+        {ParsingStatus::REPEATED_STRATEGIES, "Some strategies are repeated"}
         });
 
     std::cout << status_to_message[status] << ". See --help";

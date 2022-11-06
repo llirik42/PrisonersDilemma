@@ -14,7 +14,7 @@ int main(int arc, char** argv){
 
     ParsingStatus status = args_parser.get_parsing_status();
 
-    if (status != SUCCESS){
+    if (status != ParsingStatus::SUCCESS){
         GameViewer::view_parsing_error(status);
         return 1;
     }
