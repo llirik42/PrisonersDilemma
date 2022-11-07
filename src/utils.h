@@ -16,7 +16,7 @@ using Round = std::map<std::string, Step>; // What strategy and what did in the 
 
 using Score = std::vector<int>;
 
-using StrategiesIndexes = Triplet<unsigned int>;
+using StrategiesIndexes = Triplet<size_t>;
 
 using StrategiesDescription = std::map<std::string, std::string>;
 

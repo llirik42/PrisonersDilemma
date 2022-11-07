@@ -87,9 +87,9 @@ Score Game::tournament(){
     Score score({0});
     score.resize(_strategies.size());
 
-    for (unsigned int i = 0; i <= _strategies.size() - 3; i++){
-        for (unsigned int j = i + 1; j <= _strategies.size() - 2; j++){
-            for (unsigned int k = j + 1; k <= _strategies.size() - 1; k++){
+    for (size_t i = 0; i <= _strategies.size() - 3; i++){
+        for (size_t j = i + 1; j <= _strategies.size() - 2; j++){
+            for (size_t k = j + 1; k <= _strategies.size() - 1; k++){
                 StrategiesTriplet competitors = extract_strategies_triplet({i, j, k});
 
                 Score current_triple_score = competition(competitors);

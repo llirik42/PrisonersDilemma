@@ -29,7 +29,7 @@ inline Round extract_round_from_history_line(const std::string& string){
     for (const auto& s : substrings_vector){
         std::string strategy_name;
 
-        for (unsigned int i = 0; i < s.size() - 2; i++){
+        for (size_t i = 0; i < s.size() - 2; i++){
             strategy_name.push_back(s[i]);
         }
 
@@ -67,9 +67,11 @@ bool read_history(const std::string& configs_path, History& history){
     }
 }
 
+/*
 bool AbstractStorage::is_current_game_history_empty() const{
     return false;
 }
+*/
 
 Round AbstractStorage::get_previous_round_info() const{
     return {};

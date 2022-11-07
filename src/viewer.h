@@ -19,6 +19,6 @@ public:
     static void view_round(const Score& current_score, const Choices& choices, const Score& delta_score);
     static void view_exception(const std::exception& exception);
 private:
-    unsigned int _players_count;
+    size_t _players_count;
     unsigned int _rounds_counter;
 };

@@ -74,11 +74,11 @@ void GameViewer::view_round(const Score& current_score, const Score& delta_score
 
     const unsigned int index_of_failure = std::numeric_limits<unsigned int>::max();
 
-    for (unsigned int i = 0; i < _players_count; i++){
+    for (size_t i = 0; i < _players_count; i++){
         std::cout.width(WIDTH2);
 
         unsigned int tmp_index = index_of_failure;
-        for (unsigned int j = 0; j < indexes.size(); j++){
+        for (size_t j = 0; j < indexes.size(); j++){
             if (indexes[j] == i){
                 tmp_index = j;
             }

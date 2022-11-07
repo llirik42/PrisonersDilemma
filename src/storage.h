@@ -9,7 +9,7 @@
 
 class AbstractStorage{
 public:
-    [[nodiscard]] virtual bool is_current_game_history_empty() const;
+    [[nodiscard]] virtual bool is_current_game_history_empty() const = 0;
     [[nodiscard]] virtual Round get_previous_round_info() const; // In current game
     [[nodiscard]] virtual History get_previous_games_history() const;
 

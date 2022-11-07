@@ -67,11 +67,13 @@ ParsingStatus validate_count_of_met_args(const ArgsParser::MetArgsMap& met_args)
 }
 
 ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDescription& description){
-    for (unsigned int i = 0; i < parser._strategies_names.size(); i++){
+    for (size_t i = 0; i < parser._strategies_names.size(); i++){
+        const auto current_strategy_name = parser._strategies_names[i];
+
         bool met_unknown_strategy = false;
 
         for (const auto& [strategy_name, strategy_description] : description){
-            if (strategy_name == parser._strategies_names[i]){
+            if (strategy_name == current_strategy_name){
                 met_unknown_strategy = true;
                 break;
             }
@@ -82,7 +84,7 @@ ParsingStatus validate_strategies(const ArgsParser& parser, const StrategiesDesc
         }
 
         for (unsigned int j = 0; j < i; j++){
-            if (parser._strategies_names[i] == parser._strategies_names[j]){
+            if (current_strategy_name == parser._strategies_names[j]){
                 return ParsingStatus::REPEATED_STRATEGIES;
             }
         }

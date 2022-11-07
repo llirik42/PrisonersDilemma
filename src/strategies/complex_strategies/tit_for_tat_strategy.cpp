@@ -5,7 +5,7 @@ Step get_step_from_other_players_statistic(unsigned int cooperation_count, unsig
 }
 
 Round RawTitForTatStrategy::find_last_round_with_tit_for_tat(const History& history) const{
-    for (unsigned int i = history.size(); i > 0; i--){
+    for (size_t i = history.size(); i > 0; i--){
         const Round& current_round = history[i - 1];
 
         if (current_round.count(_strategy_name)){
